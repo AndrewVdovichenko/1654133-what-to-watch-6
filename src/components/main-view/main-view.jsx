@@ -97,7 +97,7 @@ const MainView = (props) => {
           </ul>
 
           <div className="catalog__movies-list">
-            {MOVIES.map((movie) => <SmallMovieCard movie={movie} />)}
+            {MOVIES.map((movie) => <SmallMovieCard key={movie.id} movie={movie} />)}
           </div>
 
           <div className="catalog__more">
