@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SmallMovieCard = (props) => {
   const {name, previewUrl, pageUrl} = props.movie;
@@ -13,6 +14,14 @@ const SmallMovieCard = (props) => {
       </h3>
     </article>
   );
+};
+
+SmallMovieCard.propTypes = {
+  movie: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    previewUrl: PropTypes.string.isRequired,
+    pageUrl: PropTypes.string.isRequired,
+  }).isRequired
 };
 
 export default SmallMovieCard;
