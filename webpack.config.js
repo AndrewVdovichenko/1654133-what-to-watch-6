@@ -11,6 +11,7 @@ module.exports = {
     contentBase: PATH_TO_PUBLIC,
     open: true,
     port: 1337,
+    historyApiFallback: true,
   },
   module: {
     rules: [
