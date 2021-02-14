@@ -1,11 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import SmallMovieCard from '../small-movie-card/small-movie-card';
 import Footer from '../footer/footer';
-import {MOVIES} from '../../const';
+import {MOVIE_PROPS, FILMS_PROPS} from '../../const';
 
 const MainView = (props) => {
   const {name, posterUrl, genre, released} = props.promo;
+  const films = props.films;
+
   return (
     <React.Fragment>
       <section className="movie-card">
@@ -100,7 +101,7 @@ const MainView = (props) => {
           </ul>
 
           <div className="catalog__movies-list">
-            {MOVIES.map((movie) => <SmallMovieCard key={movie.id} movie={movie} />)}
+            {films.map((movie) => <SmallMovieCard key={movie.id} movie={movie} />)}
           </div>
 
           <div className="catalog__more">
@@ -115,12 +116,8 @@ const MainView = (props) => {
 };
 
 MainView.propTypes = {
-  promo: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    posterUrl: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-  }).isRequired
+  promo: MOVIE_PROPS,
+  films: FILMS_PROPS,
 };
 
 export default MainView;

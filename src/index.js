@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/app/app';
+import {MOVIES} from './mocks/films';
+import {REVIEWS} from './mocks/reviews';
+import {USERS} from './mocks/users';
 
-const promo = {
-  name: `The Grand Budapest Hotel`,
-  posterUrl: `img/the-grand-budapest-hotel-poster.jpg`,
-  genre: `Drama`,
-  released: 2014,
-};
+const PROMO = MOVIES[19];
 
 ReactDOM.render(
-    <App promo={promo}/>,
+    <App
+      promo={PROMO}
+      films={MOVIES}
+      reviews={REVIEWS}
+      users={USERS}
+    />,
     document.querySelector(`#root`)
 );
