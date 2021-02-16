@@ -11,30 +11,32 @@ import {MOVIE_PROPS, FILMS_PROPS, REVIEWS_PROPS, USERS_PROPS} from '../../const'
 
 const App = (props) => {
   const myMovies = props.films.filter((movie) => movie.isFavorite === true);
+  const promo = props.promo;
+  const films = props.films;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
           <MainView
-            promo={props.promo}
-            films={props.films}
+            promo={promo}
+            films={films}
           />
         </Route>
         <Route exact path="/films/:id/review">
-          <AddReviewView />
+          <AddReviewView films={films}/>
         </Route>
         <Route exact path="/login">
           <AuthView />
         </Route>
         <Route exact path="/films/:id">
-          <MovieView />
+          <MovieView films={films} />
         </Route>
         <Route exact path="/mylist">
           <MyListView myMovies={myMovies}/>
         </Route>
-        <Route exact path="/player/:id">
-          <PlayerView />
+        <Route exact path="/player/:id" >
+          <PlayerView films={films}/>
         </Route>
         <Route>
           <NotFoundView />
