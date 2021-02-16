@@ -44,3 +44,11 @@ export const USERS_PROPS = PropTypes.arrayOf(
       avatarUrl: PropTypes.string.isRequired,
     }).isRequired
 );
+
+export const RATING = {
+  "Bad": [0, 1, 2],
+  "Normal": [3, 4],
+  "Good": [5, 6, 7],
+  "Very Good": [8, 9],
+  "Awesome": [10],
+};
