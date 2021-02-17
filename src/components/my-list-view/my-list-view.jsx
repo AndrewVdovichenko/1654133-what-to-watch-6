@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import SmallMovieCard from '../small-movie-card/small-movie-card';
+import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
+import {FILMS_PROPS} from '../../const';
 
 const MyListView = ({myMovies}) => {
   return (
@@ -27,9 +27,8 @@ const MyListView = ({myMovies}) => {
       <section className="catalog">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-        <div className="catalog__movies-list">
-          {myMovies.map((movie) => <SmallMovieCard movie={movie} key={movie.id} />)}
-        </div>
+        <MoviesList films={myMovies} />
+
       </section>
 
       <Footer link={`main.html`} />
@@ -38,13 +37,7 @@ const MyListView = ({myMovies}) => {
 };
 
 MyListView.propTypes = {
-  myMovies: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        previewUrl: PropTypes.string.isRequired,
-        pageUrl: PropTypes.string.isRequired,
-      }).isRequired
-  ),
+  myMovies: FILMS_PROPS,
 };
 
 export default MyListView;

@@ -1,6 +1,11 @@
 import React from 'react';
+import {useParams} from 'react-router-dom';
+import {FILMS_PROPS} from '../../const';
 
-const PlayerView = () => {
+const PlayerView = (props) => {
+  const movieId = useParams().id;
+  const movie = props.films[movieId - 1];
+
   return (
     <div className="player">
       <video src="#" className="player__video" poster="img/player-poster.jpg"></video>
@@ -35,6 +40,10 @@ const PlayerView = () => {
       </div>
     </div>
   );
+};
+
+PlayerView.propTypes = {
+  films: FILMS_PROPS,
 };
 
 export default PlayerView;
