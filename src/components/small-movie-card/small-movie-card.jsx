@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import Videoplayer from '../videoplayer/videoplayer';
 import {MOVIE_PROPS} from '../../const';
@@ -7,19 +7,19 @@ const PAUSE_BEFORE_AUTOPLAY = 1000;
 
 const SmallMovieCard = (props) => {
   const [isVideoplayerActive, setVideoplayerActive] = useState(false);
+  const timer = useRef(null);
   const {name, previewUrl, id} = props.movie;
-  let timerId = null;
 
   const handleMouseEnter = () => {
     props.onHover(id);
-    timerId = setTimeout(() => {
+    timer.current = setTimeout(() => {
       setVideoplayerActive(true);
     }, PAUSE_BEFORE_AUTOPLAY);
   };
 
   const handleMouseLeave = () => {
     props.onHover(-1);
-    clearTimeout(timerId);
+    clearTimeout(timer.current);
     setVideoplayerActive(false);
   };
 
@@ -30,7 +30,7 @@ const SmallMovieCard = (props) => {
       onMouseLeave={handleMouseLeave}>
       <div className="small-movie-card__image">
         {isVideoplayerActive
-          ? <Videoplayer movie={props.movie} size={[175, 280]} />
+          ? <Videoplayer movie={props.movie} />
           : <img src={previewUrl} alt={name} width="280" height="175" />}
       </div>
       <h3 className="small-movie-card__title">
