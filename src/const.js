@@ -52,3 +52,5 @@ export const RATING = {
   "Very Good": [8, 9],
   "Awesome": [10],
 };
+
+export const ALL_GENRES = `All genres`;
