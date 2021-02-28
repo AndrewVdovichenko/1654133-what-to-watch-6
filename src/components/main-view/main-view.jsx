@@ -1,7 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
+import GenresList from '../genres-list/genres-list';
 import {MOVIE_PROPS, FILMS_PROPS} from '../../const';
+import {getSortedFilmsByGenre} from '../../logic';
 
 const MainView = (props) => {
   const {name, posterUrl, genre, released} = props.promo;
@@ -67,39 +70,7 @@ const MainView = (props) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
-            <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
-            </li>
-            <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
-            </li>
-          </ul>
-
+          <GenresList />
           <MoviesList films={films} />
 
           <div className="catalog__more">
@@ -118,4 +89,9 @@ MainView.propTypes = {
   films: FILMS_PROPS,
 };
 
-export default MainView;
+const mapStateToProps = (state) => ({
+  films: getSortedFilmsByGenre(state.films, state.genre),
+});
+
+export {MainView};
+export default connect(mapStateToProps, null)(MainView);
