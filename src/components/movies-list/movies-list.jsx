@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import SmallMovieCard from '../small-movie-card/small-movie-card';
-import {FILMS_PROPS} from '../../const';
+import {FILMS_PROPS} from '../../utils';
 
 const MoviesList = ({films}) => {
   const [activeMovie, setActiveMovie] = useState(-1);

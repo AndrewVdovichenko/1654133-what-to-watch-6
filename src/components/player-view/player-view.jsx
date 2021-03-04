@@ -1,6 +1,6 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
-import {FILMS_PROPS} from '../../const';
+import {FILMS_PROPS} from '../../utils';
 
 const PlayerView = (props) => {
   const movieId = useParams().id;

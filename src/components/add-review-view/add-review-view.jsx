@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import {FILMS_PROPS, RATING_STARS} from '../../const';
+import {FILMS_PROPS, RATING_STARS} from '../../utils';
 
 const AddReviewView = (props) => {
   const movieId = useParams().id;

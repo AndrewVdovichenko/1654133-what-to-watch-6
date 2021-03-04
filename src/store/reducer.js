@@ -1,6 +1,6 @@
 import {ActionType} from './action';
 import {MOVIES} from '../mocks/films';
-import {ALL_GENRES} from '../const';
+import {ALL_GENRES} from '../utils';
 
 const initialState = {
   genre: ALL_GENRES,

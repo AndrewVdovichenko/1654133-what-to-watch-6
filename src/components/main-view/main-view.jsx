@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
 import GenresList from '../genres-list/genres-list';
-import {MOVIE_PROPS, FILMS_PROPS} from '../../const';
+import {MOVIE_PROPS, FILMS_PROPS} from '../../utils';
 import {getSortedFilmsByGenre} from '../../logic';
 
 const MainView = (props) => {

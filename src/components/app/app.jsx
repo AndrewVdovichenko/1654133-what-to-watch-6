@@ -7,7 +7,7 @@ import MovieView from '../movie-view/movie-view';
 import MyListView from '../my-list-view/my-list-view';
 import NotFoundView from '../not-found-view/not-found-view';
 import PlayerView from '../player-view/player-view';
-import {MOVIE_PROPS, FILMS_PROPS, REVIEWS_PROPS, USERS_PROPS} from '../../const';
+import {MOVIE_PROPS, FILMS_PROPS, REVIEWS_PROPS, USERS_PROPS} from '../../utils';
 
 const App = (props) => {
   const myMovies = props.films.filter((movie) => movie.isFavorite === true);

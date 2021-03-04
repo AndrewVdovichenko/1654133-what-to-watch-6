@@ -1,7 +1,7 @@
 import React, {useState, useRef} from 'react';
 import PropTypes from 'prop-types';
 import Videoplayer from '../videoplayer/videoplayer';
-import {MOVIE_PROPS} from '../../const';
+import {MOVIE_PROPS} from '../../utils';
 
 const PAUSE_BEFORE_AUTOPLAY = 1000;
 
