@@ -1,7 +1,7 @@
 import React from 'react';
 import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
-import {FILMS_PROPS} from '../../const';
+import {FILMS_PROPS} from '../../utils';
 
 const MyListView = ({myMovies}) => {
   return (

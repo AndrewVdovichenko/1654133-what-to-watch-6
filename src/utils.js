@@ -18,7 +18,7 @@ export const MOVIE_PROPS = PropTypes.shape({
   genre: PropTypes.string.isRequired,
   released: PropTypes.number.isRequired,
   isFavorite: PropTypes.bool.isRequired,
-}).isRequired;
+});
 
 export const FILMS_PROPS = PropTypes.arrayOf(MOVIE_PROPS);
 
@@ -56,3 +56,8 @@ export const RATING = {
 export const RATING_STARS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 export const ALL_GENRES = `All genres`;
+
+export const AuthorizationStatus = {
+  AUTH: `AUTH`,
+  NO_AUTH: `NO_AUTH`,
+};

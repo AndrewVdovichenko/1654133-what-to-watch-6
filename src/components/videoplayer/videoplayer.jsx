@@ -1,5 +1,5 @@
 import React from 'react';
-import {MOVIE_PROPS} from '../../const';
+import {MOVIE_PROPS} from '../../utils';
 
 const Videoplayer = (props) => {
   const {previewVideoLink, previewUrl} = props.movie;

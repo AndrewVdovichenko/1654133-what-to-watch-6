@@ -4,7 +4,7 @@ import {Link, useParams} from 'react-router-dom';
 import Footer from '../footer/footer';
 import LikeThisList from '../like-this-list/like-this-list';
 
-import {RATING, FILMS_PROPS} from '../../const';
+import {RATING, FILMS_PROPS} from '../../utils';
 
 const getTextRating = (num) => {
   const intNum = Math.floor(num);

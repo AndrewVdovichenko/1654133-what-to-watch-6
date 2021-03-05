@@ -1,4 +1,4 @@
-import {ALL_GENRES} from './const';
+import {ALL_GENRES} from './utils';
 
 export const getUniqueGenres = (films) => {
   const uniqueGenres = [ALL_GENRES];
