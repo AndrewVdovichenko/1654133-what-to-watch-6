@@ -7,35 +7,28 @@ import MovieView from '../movie-view/movie-view';
 import MyListView from '../my-list-view/my-list-view';
 import NotFoundView from '../not-found-view/not-found-view';
 import PlayerView from '../player-view/player-view';
-import {MOVIE_PROPS, FILMS_PROPS, REVIEWS_PROPS, USERS_PROPS} from '../../utils';
 
-const App = (props) => {
-  const myMovies = props.films.filter((movie) => movie.isFavorite === true);
-  const promo = props.promo;
-  const films = props.films;
-
+const App = () => {
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          <MainView
-            promo={promo}
-          />
+          <MainView />
         </Route>
         <Route exact path="/films/:id/review">
-          <AddReviewView films={films}/>
+          <AddReviewView />
         </Route>
         <Route exact path="/login">
           <AuthView />
         </Route>
         <Route exact path="/films/:id">
-          <MovieView films={films} />
+          <MovieView />
         </Route>
         <Route exact path="/mylist">
-          <MyListView myMovies={myMovies}/>
+          <MyListView />
         </Route>
         <Route exact path="/player/:id" >
-          <PlayerView films={films}/>
+          <PlayerView />
         </Route>
         <Route>
           <NotFoundView />
@@ -43,13 +36,6 @@ const App = (props) => {
       </Switch>
     </BrowserRouter>
   );
-};
-
-App.propTypes = {
-  promo: MOVIE_PROPS,
-  films: FILMS_PROPS,
-  reviews: REVIEWS_PROPS,
-  users: USERS_PROPS,
 };
 
 export default App;

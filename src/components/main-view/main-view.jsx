@@ -1,14 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
 import GenresList from '../genres-list/genres-list';
 import {MOVIE_PROPS, FILMS_PROPS} from '../../utils';
 import {getSortedFilmsByGenre} from '../../logic';
+import {fetchFilmsList, fetchPromoMovie} from '../../store/api-actions';
+import LoadingView from '../loading-view/loading-view';
 
 const MainView = (props) => {
+  const {films, isDataLoaded, onLoadData} = props;
   const {name, posterUrl, genre, released} = props.promo;
-  const films = props.films;
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      onLoadData();
+    }
+  }, [isDataLoaded]);
+
+  if (!isDataLoaded) {
+    return <LoadingView />;
+  }
+
 
   return (
     <React.Fragment>
@@ -87,11 +101,22 @@ const MainView = (props) => {
 MainView.propTypes = {
   promo: MOVIE_PROPS,
   films: FILMS_PROPS,
+  isDataLoaded: PropTypes.bool.isRequired,
+  onLoadData: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   films: getSortedFilmsByGenre(state.films, state.genre),
+  promo: state.promo,
+  isDataLoaded: state.isDataLoaded,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onLoadData() {
+    dispatch(fetchPromoMovie());
+    dispatch(fetchFilmsList());
+  },
 });
 
 export {MainView};
-export default connect(mapStateToProps, null)(MainView);
+export default connect(mapStateToProps, mapDispatchToProps)(MainView);
