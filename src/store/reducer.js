@@ -1,9 +1,19 @@
 import {ActionType} from './action';
-import {ALL_GENRES} from '../utils';
+import {ALL_GENRES, AuthorizationStatus} from '../utils';
+
+const initialPromo = {
+  name: ``,
+  posterUrl: ``,
+  genre: ``,
+  released: ``,
+};
 
 const initialState = {
   genre: ALL_GENRES,
-  films: MOVIES,
+  films: [],
+  promo: initialPromo,
+  authorizationStatus: AuthorizationStatus.NO_AUTH,
+  isDataLoaded: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -25,6 +35,25 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         genre: action.payload,
+      };
+
+    case ActionType.LOAD_FILMS:
+      return {
+        ...state,
+        films: action.payload,
+        isDataLoaded: true,
+      };
+
+    case ActionType.LOAD_PROMO:
+      return {
+        ...state,
+        promo: action.payload,
+      };
+
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
       };
 
     default:
