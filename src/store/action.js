@@ -4,6 +4,7 @@ export const ActionType = {
   LOAD_FILMS: `data/loadFilms`,
   LOAD_PROMO: `data/loadPromo`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
+  SHOW_MORE: `app/showMore`,
 };
 
 export const ActionCreator = {
@@ -29,5 +30,9 @@ export const ActionCreator = {
   requiredAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,
     payload: status,
-  })
+  }),
+
+  showMore: () => ({
+    type: ActionType.SHOW_MORE,
+  }),
 };

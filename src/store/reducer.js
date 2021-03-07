@@ -1,5 +1,5 @@
 import {ActionType} from './action';
-import {ALL_GENRES, AuthorizationStatus} from '../utils';
+import {ALL_GENRES, FILMS_PER_STEP, AuthorizationStatus} from '../utils';
 
 const initialPromo = {
   name: ``,
@@ -14,6 +14,7 @@ const initialState = {
   promo: initialPromo,
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   isDataLoaded: false,
+  showedFilmsCount: FILMS_PER_STEP,
 };
 
 const reducer = (state = initialState, action) => {
@@ -35,6 +36,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         genre: action.payload,
+        showedFilmsCount: FILMS_PER_STEP,
       };
 
     case ActionType.LOAD_FILMS:
@@ -54,6 +56,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         authorizationStatus: action.payload,
+      };
+
+    case ActionType.SHOW_MORE:
+      return {
+        ...state,
+        showedFilmsCount: state.showedFilmsCount + FILMS_PER_STEP,
       };
 
     default:

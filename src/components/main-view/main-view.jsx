@@ -4,13 +4,14 @@ import PropTypes from 'prop-types';
 import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
 import GenresList from '../genres-list/genres-list';
+import ShowMore from '../show-more/show-more';
 import {MOVIE_PROPS, FILMS_PROPS} from '../../utils';
 import {getSortedFilmsByGenre} from '../../logic';
 import {fetchFilmsList, fetchPromoMovie} from '../../store/api-actions';
 import LoadingView from '../loading-view/loading-view';
 
 const MainView = (props) => {
-  const {films, isDataLoaded, onLoadData} = props;
+  const {films, isDataLoaded, onLoadData, showedFilmsCount} = props;
   const {name, posterUrl, genre, released} = props.promo;
 
   useEffect(() => {
@@ -22,7 +23,6 @@ const MainView = (props) => {
   if (!isDataLoaded) {
     return <LoadingView />;
   }
-
 
   return (
     <React.Fragment>
@@ -83,13 +83,9 @@ const MainView = (props) => {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-
           <GenresList />
-          <MoviesList films={films} />
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <MoviesList films={films} showed={showedFilmsCount} />
+          {(showedFilmsCount < films.length) && <ShowMore />}
         </section>
 
         <Footer />
@@ -102,6 +98,7 @@ MainView.propTypes = {
   promo: MOVIE_PROPS,
   films: FILMS_PROPS,
   isDataLoaded: PropTypes.bool.isRequired,
+  showedFilmsCount: PropTypes.number.isRequired,
   onLoadData: PropTypes.func.isRequired,
 };
 
@@ -109,6 +106,7 @@ const mapStateToProps = (state) => ({
   films: getSortedFilmsByGenre(state.films, state.genre),
   promo: state.promo,
   isDataLoaded: state.isDataLoaded,
+  showedFilmsCount: state.showedFilmsCount,
 });
 
 const mapDispatchToProps = (dispatch) => ({
