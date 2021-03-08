@@ -1,4 +1,5 @@
 import React, {useState, useRef} from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Videoplayer from '../videoplayer/videoplayer';
 import {MOVIE_PROPS} from '../../utils';
@@ -34,7 +35,7 @@ const SmallMovieCard = (props) => {
           : <img src={previewUrl} alt={name} width="280" height="175" />}
       </div>
       <h3 className="small-movie-card__title">
-        <a className="small-movie-card__link" href={`/films/${id}`}>{name}</a>
+        <Link className="small-movie-card__link" to={`/films/${id}`}>{name}</Link>
       </h3>
     </article>
   );
