@@ -9,6 +9,7 @@ import {MOVIE_PROPS, FILMS_PROPS} from '../../utils';
 import {getSortedFilmsByGenre} from '../../logic';
 import {fetchFilmsList, fetchPromoMovie} from '../../store/api-actions';
 import LoadingView from '../loading-view/loading-view';
+import UserBlock from '../user-block/user-block';
 
 const MainView = (props) => {
   const {films, isDataLoaded, onLoadData, showedFilmsCount} = props;
@@ -42,17 +43,13 @@ const MainView = (props) => {
             </a>
           </div>
 
-          <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
-          </div>
+          <UserBlock />
         </header>
 
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src={posterUrl} alt={name + ` poster`} width="218" height="327" />
+              <img src={posterUrl} alt={`${name} poster`} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
