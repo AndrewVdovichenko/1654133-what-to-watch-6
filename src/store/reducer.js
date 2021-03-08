@@ -8,6 +8,12 @@ const initialPromo = {
   released: 0,
 };
 
+const initialUserInfo = {
+  email: ``,
+  name: ``,
+  avatar: ``,
+};
+
 const initialState = {
   genre: ALL_GENRES,
   films: [],
@@ -15,6 +21,7 @@ const initialState = {
   authorizationStatus: AuthorizationStatus.NO_AUTH,
   isDataLoaded: false,
   showedFilmsCount: FILMS_PER_STEP,
+  user: initialUserInfo,
 };
 
 const reducer = (state = initialState, action) => {
@@ -62,6 +69,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         showedFilmsCount: state.showedFilmsCount + FILMS_PER_STEP,
+      };
+
+    case ActionType.LOAD_USER_INFO:
+      return {
+        ...state,
+        user: action.payload,
       };
 
     default:
