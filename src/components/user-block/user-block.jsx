@@ -18,11 +18,11 @@ const UnauthorizedUser = () => {
   );
 };
 
-const UserBlock = ({authorizationStatus}) => {
+const UserBlock = ({authorizationStatus, avatarUrl}) => {
   return (
     <div className="user-block">
       {authorizationStatus === AuthorizationStatus.AUTH
-        ? <AuthorizedUser avatarUrl={`img/avatar.jpg`}/>
+        ? <AuthorizedUser avatarUrl={avatarUrl} />
         : <UnauthorizedUser />
       }
     </div>
@@ -35,10 +35,12 @@ AuthorizedUser.propTypes = {
 
 UserBlock.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
+  avatarUrl: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
   authorizationStatus: state.authorizationStatus,
+  avatarUrl: state.user.avatarUrl,
 });
 
 export {UserBlock};

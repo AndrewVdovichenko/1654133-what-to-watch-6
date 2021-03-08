@@ -49,3 +49,17 @@ export const adaptToClient = (film) => {
 
   return adaptedFilm;
 };
+
+export const adaptUserInfoToClient = (userInfo) => {
+  const adaptedUserInfo = Object.assign(
+      {},
+      userInfo,
+      {
+        avatarUrl: userInfo.avatar_url,
+      }
+  );
+
+  delete adaptedUserInfo.avatar_url;
+
+  return adaptedUserInfo;
+};
