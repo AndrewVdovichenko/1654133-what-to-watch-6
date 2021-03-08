@@ -5,7 +5,7 @@ import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
 import GenresList from '../genres-list/genres-list';
 import ShowMore from '../show-more/show-more';
-import {MOVIE_PROPS, FILMS_PROPS} from '../../utils';
+import {PROMO_PROPS, FILMS_PROPS} from '../../utils';
 import {getSortedFilmsByGenre} from '../../logic';
 import {fetchFilmsList, fetchPromoMovie} from '../../store/api-actions';
 import LoadingView from '../loading-view/loading-view';
@@ -92,7 +92,7 @@ const MainView = (props) => {
 };
 
 MainView.propTypes = {
-  promo: MOVIE_PROPS,
+  promo: PROMO_PROPS,
   films: FILMS_PROPS,
   isDataLoaded: PropTypes.bool.isRequired,
   showedFilmsCount: PropTypes.number.isRequired,

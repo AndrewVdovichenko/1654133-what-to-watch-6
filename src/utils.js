@@ -1,5 +1,12 @@
 import PropTypes from 'prop-types';
 
+export const PROMO_PROPS = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  posterUrl: PropTypes.string.isRequired,
+  genre: PropTypes.string.isRequired,
+  released: PropTypes.number.isRequired,
+});
+
 export const MOVIE_PROPS = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,

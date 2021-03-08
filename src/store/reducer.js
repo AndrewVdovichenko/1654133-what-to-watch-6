@@ -5,7 +5,7 @@ const initialPromo = {
   name: ``,
   posterUrl: ``,
   genre: ``,
-  released: ``,
+  released: 0,
 };
 
 const initialState = {
