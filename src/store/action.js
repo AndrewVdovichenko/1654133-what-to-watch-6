@@ -27,7 +27,7 @@ export const ActionCreator = {
     payload: promo,
   }),
 
-  requiredAuthorization: (status) => ({
+  requireAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,
     payload: status,
   }),
