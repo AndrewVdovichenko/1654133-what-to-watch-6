@@ -7,6 +7,7 @@ import MovieView from '../movie-view/movie-view';
 import MyListView from '../my-list-view/my-list-view';
 import NotFoundView from '../not-found-view/not-found-view';
 import PlayerView from '../player-view/player-view';
+import PrivateRoute from '../private-route/private-route';
 
 const App = () => {
   return (
@@ -15,18 +16,20 @@ const App = () => {
         <Route exact path="/">
           <MainView />
         </Route>
-        <Route exact path="/films/:id/review">
-          <AddReviewView />
-        </Route>
+        <PrivateRoute exact
+          path="/films/:id/review"
+          render={() => <AddReviewView />}
+        />
         <Route exact path="/login">
           <AuthView />
         </Route>
         <Route exact path="/films/:id">
           <MovieView />
         </Route>
-        <Route exact path="/mylist">
-          <MyListView />
-        </Route>
+        <PrivateRoute exact
+          path="/mylist"
+          render={() => <MyListView />}
+        />
         <Route exact path="/player/:id" >
           <PlayerView />
         </Route>
