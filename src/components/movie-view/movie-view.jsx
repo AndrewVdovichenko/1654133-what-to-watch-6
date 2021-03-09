@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, useParams} from 'react-router-dom';
-
+import {connect} from 'react-redux';
 import Footer from '../footer/footer';
 import LikeThisList from '../like-this-list/like-this-list';
 
@@ -126,4 +126,9 @@ MovieView.propTypes = {
   films: FILMS_PROPS,
 };
 
-export default MovieView;
+const mapStateToProps = (state) => ({
+  films: state.films,
+});
+
+export {MovieView};
+export default connect(mapStateToProps, null)(MovieView);

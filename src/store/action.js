@@ -5,6 +5,8 @@ export const ActionType = {
   LOAD_PROMO: `data/loadPromo`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
   SHOW_MORE: `app/showMore`,
+  LOAD_USER_INFO: `data/loadUserInfo`,
+  REDIRECT_TO_ROUTE: `app/redirectToRoute`,
 };
 
 export const ActionCreator = {
@@ -27,12 +29,22 @@ export const ActionCreator = {
     payload: promo,
   }),
 
-  requiredAuthorization: (status) => ({
+  requireAuthorization: (status) => ({
     type: ActionType.REQUIRED_AUTHORIZATION,
     payload: status,
   }),
 
   showMore: () => ({
     type: ActionType.SHOW_MORE,
+  }),
+
+  loadUserInfo: (userInfo) => ({
+    type: ActionType.LOAD_USER_INFO,
+    payload: userInfo,
+  }),
+
+  redirectToRoute: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
+    payload: url,
   }),
 };
