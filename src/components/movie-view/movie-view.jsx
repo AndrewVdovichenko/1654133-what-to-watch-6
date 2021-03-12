@@ -3,8 +3,8 @@ import {Link, useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Footer from '../footer/footer';
 import LikeThisList from '../like-this-list/like-this-list';
-
-import {RATING, FILMS_PROPS} from '../../utils';
+import {FILMS_PROPS} from '../../utils/proptypes';
+import {RATING} from '../../utils/const';
 
 const getTextRating = (num) => {
   const intNum = Math.floor(num);

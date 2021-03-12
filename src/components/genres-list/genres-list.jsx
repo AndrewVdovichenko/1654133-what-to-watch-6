@@ -3,8 +3,8 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {ActionCreator} from '../../store/action';
 import Genre from '../genre/genre';
-import {getUniqueGenres} from '../../logic';
-import {FILMS_PROPS} from '../../utils';
+import {getUniqueGenres} from '../../utils/helpers';
+import {FILMS_PROPS} from '../../utils/proptypes';
 
 const GenresList = (props) => {
   const {films, genre, onSelectGenre} = props;

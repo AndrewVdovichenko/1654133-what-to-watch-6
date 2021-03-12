@@ -1,5 +1,5 @@
 import {ActionType} from './action';
-import {ALL_GENRES, FILMS_PER_STEP, AuthorizationStatus} from '../utils';
+import {ALL_GENRES, FILMS_PER_STEP, AuthorizationStatus} from '../utils/const';
 
 const initialPromo = {
   name: ``,

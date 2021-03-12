@@ -1,6 +1,6 @@
 import {ActionCreator} from './action';
-import {AuthorizationStatus} from '../utils';
-import {adaptToClient, adaptUserInfoToClient} from '../logic';
+import {AuthorizationStatus} from '../utils/const';
+import {adaptToClient, adaptUserInfoToClient} from '../utils/helpers';
 
 export const fetchFilmsList = () => (dispatch, _getState, api) => (
   api.get(`/films`)

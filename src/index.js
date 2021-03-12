@@ -9,7 +9,7 @@ import App from './components/app/app';
 import {reducer} from './store/reducer';
 import {ActionCreator} from './store/action';
 import {checkAuth, fetchFilmsList, fetchPromoMovie} from "./store/api-actions";
-import {AuthorizationStatus} from "./utils";
+import {AuthorizationStatus} from "./utils/const";
 import {redirect} from './store/middlewares/redirect';
 
 const api = createAPI(
