@@ -5,6 +5,7 @@ import Footer from '../footer/footer';
 import LikeThisList from '../like-this-list/like-this-list';
 import {FILMS_PROPS} from '../../utils/proptypes';
 import {RATING} from '../../utils/const';
+import {getFilms} from '../../store/films/selectors';
 
 const getTextRating = (num) => {
   const intNum = Math.floor(num);
@@ -16,10 +17,10 @@ const getTextRating = (num) => {
   return `unknown`;
 };
 
-const MovieView = (props) => {
+const MovieView = ({films}) => {
   const movieId = useParams().id;
-  const movie = props.films[useParams().id - 1];
-  const likeThisFilms = props.films.filter((film) => film.genre === movie.genre && film.id !== movie.id).slice(0, 4);
+  const movie = films[useParams().id - 1];
+  const likeThisFilms = films.filter((film) => film.genre === movie.genre && film.id !== movie.id).slice(0, 4);
 
   return (
     <React.Fragment>
@@ -127,7 +128,7 @@ MovieView.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  films: state.films,
+  films: getFilms(state),
 });
 
 export {MovieView};

@@ -6,10 +6,12 @@ import Footer from '../footer/footer';
 import GenresList from '../genres-list/genres-list';
 import ShowMore from '../show-more/show-more';
 import {PROMO_PROPS, FILMS_PROPS} from '../../utils/proptypes';
-import {getSortedFilmsByGenre} from '../../utils/helpers';
 import {fetchFilmsList, fetchPromoMovie} from '../../store/api-actions';
 import LoadingView from '../loading-view/loading-view';
 import UserBlock from '../user-block/user-block';
+import {getPromo, getLoadedPromoStatus} from '../../store/promo/selectors';
+import {getLoadedFilmsStatus, getFilmsFilteredByGenre} from '../../store/films/selectors';
+import {getShowedFilmsCount} from '../../store/settings/selectors';
 
 const MainView = (props) => {
   const {films, isDataLoaded, onLoadData, showedFilmsCount} = props;
@@ -100,10 +102,10 @@ MainView.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  films: getSortedFilmsByGenre(state.films, state.genre),
-  promo: state.promo,
-  isDataLoaded: state.isDataLoaded,
-  showedFilmsCount: state.showedFilmsCount,
+  films: getFilmsFilteredByGenre(state),
+  promo: getPromo(state),
+  isDataLoaded: getLoadedFilmsStatus(state) && getLoadedPromoStatus(state),
+  showedFilmsCount: getShowedFilmsCount(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

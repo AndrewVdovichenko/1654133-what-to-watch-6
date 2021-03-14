@@ -1,10 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {ActionCreator} from '../../store/action';
+import {selectGenre} from '../../store/action';
 import Genre from '../genre/genre';
 import {getUniqueGenres} from '../../utils/helpers';
 import {FILMS_PROPS} from '../../utils/proptypes';
+import {getSelectedGenre} from '../../store/settings/selectors';
+import {getFilms} from '../../store/films/selectors';
 
 const GenresList = (props) => {
   const {films, genre, onSelectGenre} = props;
@@ -24,13 +26,13 @@ GenresList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  genre: state.genre,
-  films: state.films,
+  genre: getSelectedGenre(state),
+  films: getFilms(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onSelectGenre(genre) {
-    dispatch(ActionCreator.selectGenre(genre));
+    dispatch(selectGenre(genre));
   },
 });
 
