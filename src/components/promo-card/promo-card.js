@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import {getPromo} from '../../store/promo/selectors';
+import {PROMO_PROPS} from '../../utils/proptypes';
 
 const PromoCard = ({promo}) => {
   const {name, genre, released, posterUrl, previewUrl} = promo;
@@ -50,6 +51,10 @@ const PromoCard = ({promo}) => {
         </div>
       </div>
     </section>);
+};
+
+PromoCard.propTypes = {
+  promo: PROMO_PROPS,
 };
 
 const mapStateToProps = (state) => ({

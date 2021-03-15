@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 export const PROMO_PROPS = PropTypes.shape({
   name: PropTypes.string.isRequired,
   posterUrl: PropTypes.string.isRequired,
+  previewUrl: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   released: PropTypes.number.isRequired,
 });
