@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 export const PROMO_PROPS = PropTypes.shape({
   name: PropTypes.string.isRequired,
   posterUrl: PropTypes.string.isRequired,
+  previewUrl: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   released: PropTypes.number.isRequired,
 });
@@ -52,21 +53,4 @@ export const USERS_PROPS = PropTypes.arrayOf(
     }).isRequired
 );
 
-export const RATING = {
-  "Bad": [0, 1, 2],
-  "Normal": [3, 4],
-  "Good": [5, 6, 7],
-  "Very Good": [8, 9],
-  "Awesome": [10],
-};
 
-export const RATING_STARS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-export const ALL_GENRES = `All genres`;
-
-export const AuthorizationStatus = {
-  AUTH: `AUTH`,
-  NO_AUTH: `NO_AUTH`,
-};
-
-export const FILMS_PER_STEP = 8;

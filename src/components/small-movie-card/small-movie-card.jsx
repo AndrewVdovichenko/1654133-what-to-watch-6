@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Videoplayer from '../videoplayer/videoplayer';
-import {MOVIE_PROPS} from '../../utils';
+import {MOVIE_PROPS} from '../../utils/proptypes';
 
 const PAUSE_BEFORE_AUTOPLAY = 1000;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {ActionCreator} from '../../store/action';
+import {showMore} from '../../store/action';
 
 const ShowMore = ({increaseShowedFilmsCount}) => {
   return (
@@ -17,7 +17,7 @@ ShowMore.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   increaseShowedFilmsCount() {
-    dispatch(ActionCreator.showMore());
+    dispatch(showMore());
   },
 });
 

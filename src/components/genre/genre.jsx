@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {getSelectedGenre} from '../../store/settings/selectors';
 
 const Genre = (props) => {
   const {title, genre, onSelectGenre} = props;
@@ -31,7 +32,7 @@ Genre.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  genre: state.genre,
+  genre: getSelectedGenre(state),
 });
 
 export {Genre};

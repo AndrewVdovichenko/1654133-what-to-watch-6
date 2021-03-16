@@ -1,6 +1,6 @@
 import React from 'react';
 import MoviesList from '../movies-list/movies-list';
-import {FILMS_PROPS} from '../../utils';
+import {FILMS_PROPS} from '../../utils/proptypes';
 
 const LikeThisList = ({films}) => {
 
