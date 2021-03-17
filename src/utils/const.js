@@ -11,7 +11,15 @@ export const ALL_GENRES = `All genres`;
 
 export const FILMS_PER_STEP = 8;
 
+export const LIKE_THIS_SHOWED = 4;
+
 export const AuthorizationStatus = {
   AUTH: `AUTH`,
   NO_AUTH: `NO_AUTH`,
+};
+
+export const MOVIE_PAGE_TABS = {
+  OVERVIEW: `Overview`,
+  DETAILS: `Details`,
+  REVIEWS: `Reviews`,
 };
