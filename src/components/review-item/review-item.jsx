@@ -1,8 +1,11 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import {REVIEW_PROPS} from '../../utils/proptypes';
 
 const ReviewItem = ({review}) => {
-  const {comment, rating, user} = review;
+  const {comment, rating, user, date} = review;
+  const visibleDate = dayjs(date).format(`MMMM DD, YYYY`);
+  const machineDate = dayjs(date).format(`YYYY-MM-DD`);
 
   return (
     <div className="review">
@@ -11,7 +14,7 @@ const ReviewItem = ({review}) => {
 
         <footer className="review__details">
           <cite className="review__author">{user.name}</cite>
-          <time className="review__date" dateTime="2016-12-24">December 24, 2016</time>
+          <time className="review__date" dateTime={machineDate}>{visibleDate}</time>
         </footer>
       </blockquote>
 

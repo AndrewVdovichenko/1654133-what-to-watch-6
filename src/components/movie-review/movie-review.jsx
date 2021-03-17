@@ -5,8 +5,8 @@ import {REVIEWS_PROPS} from '../../utils/proptypes';
 import ReviewItem from '../review-item/review-item';
 
 const MovieReview = ({comments}) => {
-  const leftColumnReviews = comments.filter((_, key) => key % 2);
-  const rightColumnReviews = comments.filter((_, key) => !(key % 2));
+  const rightColumnReviews = comments.filter((_, key) => key % 2);
+  const leftColumnReviews = comments.filter((_, key) => !(key % 2));
 
   return (
     <div className="movie-card__reviews movie-card__row">
