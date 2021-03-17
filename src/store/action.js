@@ -7,6 +7,9 @@ export const ActionType = {
   SHOW_MORE: `app/showMore`,
   LOAD_USER_INFO: `data/loadUserInfo`,
   REDIRECT_TO_ROUTE: `app/redirectToRoute`,
+  LOAD_MOVIE: `data/loadMovie`,
+  RESET_MOVIE: `data/resetMovie`,
+  LOAD_COMMENTS: `data/loadComments`,
 };
 
 export const selectGenre = (genre) => ({
@@ -46,4 +49,18 @@ export const loadUserInfo = (userInfo) => ({
 export const redirectToRoute = (url) => ({
   type: ActionType.REDIRECT_TO_ROUTE,
   payload: url,
+});
+
+export const loadMovie = (movie) => ({
+  type: ActionType.LOAD_MOVIE,
+  payload: movie,
+});
+
+export const resetMovie = () => ({
+  type: ActionType.RESET_MOVIE,
+});
+
+export const loadComments = (comments) => ({
+  type: ActionType.LOAD_COMMENTS,
+  payload: comments,
 });
