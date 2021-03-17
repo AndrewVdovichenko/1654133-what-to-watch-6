@@ -16,7 +16,7 @@ const MoviesList = ({films, showed}) => {
 
 MoviesList.propTypes = {
   films: FILMS_PROPS,
-  showed: PropTypes.number.isRequired,
+  showed: PropTypes.number,
 };
 
 export default MoviesList;
