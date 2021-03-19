@@ -1,6 +1,5 @@
 import React, {useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Videoplayer from '../videoplayer/videoplayer';
 import {MOVIE_PROPS} from '../../utils/proptypes';
 
@@ -12,14 +11,12 @@ const SmallMovieCard = (props) => {
   const {name, previewUrl, id} = props.movie;
 
   const handleMouseEnter = () => {
-    props.onHover(id);
     timer.current = setTimeout(() => {
       setVideoplayerActive(true);
     }, PAUSE_BEFORE_AUTOPLAY);
   };
 
   const handleMouseLeave = () => {
-    props.onHover(-1);
     clearTimeout(timer.current);
     setVideoplayerActive(false);
   };
@@ -43,7 +40,6 @@ const SmallMovieCard = (props) => {
 
 SmallMovieCard.propTypes = {
   movie: MOVIE_PROPS,
-  onHover: PropTypes.func,
 };
 
 export default SmallMovieCard;

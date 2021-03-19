@@ -30,18 +30,18 @@ export const MOVIE_PROPS = PropTypes.shape({
 
 export const FILMS_PROPS = PropTypes.arrayOf(MOVIE_PROPS);
 
-export const REVIEWS_PROPS = PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      user: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-      }).isRequired,
-      rating: PropTypes.number.isRequired,
-      comment: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-    })
-);
+export const REVIEW_PROPS = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+  rating: PropTypes.number.isRequired,
+  comment: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+});
+
+export const REVIEWS_PROPS = PropTypes.arrayOf(REVIEW_PROPS);
 
 export const USERS_PROPS = PropTypes.arrayOf(
     PropTypes.shape({

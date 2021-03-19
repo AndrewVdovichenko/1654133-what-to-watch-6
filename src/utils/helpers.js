@@ -1,4 +1,4 @@
-import {ALL_GENRES} from './const';
+import {ALL_GENRES, RATING} from './const';
 
 export const getUniqueGenres = (films) => {
   const uniqueGenres = [ALL_GENRES];
@@ -49,4 +49,22 @@ export const adaptUserInfoToClient = (userInfo) => {
     name: userInfo.name,
     avatarUrl: userInfo.avatar_url,
   };
+};
+
+export const getTextRating = (num) => {
+  const intNum = Math.floor(num);
+  for (const [key, value] of Object.entries(RATING)) {
+    if (value.includes(intNum)) {
+      return key;
+    }
+  }
+  return `unknown`;
+};
+
+export const getRuntimeInHoursAndMinutes = (num) => {
+  const MINUTES_IN_HOURS = 60;
+  const minutes = num % MINUTES_IN_HOURS;
+  const hours = (num - minutes) / MINUTES_IN_HOURS;
+
+  return `${hours}h ${minutes}m`;
 };
