@@ -1,12 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {useParams, Link} from 'react-router-dom';
+import {useParams, useHistory} from 'react-router-dom';
 import LoadingView from '../loading-view/loading-view';
 import {fetchMovie} from '../../store/api-actions';
 import {getMovie} from '../../store/movie/selectors';
 import {MOVIE_PROPS} from '../../utils/proptypes';
-import {SECONDS_IN_MINUTE} from '../../utils/const';
+import {SECONDS_IN_MINUTE, INTERVAL_TO_UPDATE_PLAYER_INFO, HUNDRED_PERCENT} from '../../utils/const';
 import {getFormattedRemainingTime} from '../../utils/helpers';
 
 const PlayerView = (props) => {
@@ -16,12 +16,14 @@ const PlayerView = (props) => {
 
   const video = useRef(null);
   const playerControls = useRef(null);
-  const fullscreenButton = useRef(null);
+
+  const history = useHistory();
 
   const [player, setPlayer] = useState({
     paused: true,
     duration: null,
     currentTime: null,
+    remainingTime: null,
   });
 
   useEffect(() => {
@@ -38,11 +40,13 @@ const PlayerView = (props) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      const currentTime = video.current.currentTime;
       setPlayer({
         ...player,
-        currentTime: video.current.currentTime,
+        currentTime,
+        remainingTime: Math.floor(player.duration - currentTime),
       });
-    }, 500);
+    }, INTERVAL_TO_UPDATE_PLAYER_INFO);
 
     return () => clearInterval(interval);
   });
@@ -51,6 +55,40 @@ const PlayerView = (props) => {
     return <LoadingView />;
   }
 
+  const isFullscreen = () => {
+    return !!(document.fullScreen ||
+      document.webkitIsFullScreen ||
+      document.mozFullScreen ||
+      document.msFullscreenElement ||
+      document.fullscreenElement);
+  };
+
+  const openFullscreen = () => {
+    if (!video.current) {
+      return;
+    }
+    const videoPlayer = video.current;
+
+    if (isFullscreen()) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitCancelFullScreen) {
+        document.webkitCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    } else {
+      if (videoPlayer.requestFullscreen) {
+        videoPlayer.requestFullscreen();
+      } else if (videoPlayer.webkitRequestFullscreen) {
+        videoPlayer.webkitRequestFullscreen();
+      } else if (videoPlayer.msRequestFullscreen) {
+        videoPlayer.msRequestFullscreen();
+      }
+    }
+  };
 
   const onPlayClick = () => {
     if (player.paused) {
@@ -70,23 +108,24 @@ const PlayerView = (props) => {
   };
 
   const togglerStyle = {
-    left: player.currentTime / player.duration * 100 + `%`,
+    left: player.currentTime / player.duration * HUNDRED_PERCENT + `%`,
   };
 
   return (
     <div className="player">
-      <video ref={video} src={movie.videoLink} className="player__video" poster={movie.previewUrl}></video>
+      <video ref={video} src={movie.videoLink} className="player__video" poster={movie.previewUrl} preload="metadata"></video>
 
-      <Link to={`/films/${movieId}`} >
-        <button type="button" className="player__exit">Exit</button>
-      </Link>
+      <button type="button" className="player__exit" onClick={() => {
+        history.push(`/films/${movieId}`);
+      }}>Exit</button>
+
       <div className="player__controls" ref={playerControls}>
         <div className="player__controls-row">
           <div className="player__time">
             <progress className="player__progress" value={player.currentTime} min={0} max={player.duration}></progress>
             <div className="player__toggler" style={togglerStyle}>Toggler</div>
           </div>
-          <div className="player__time-value">{getFormattedRemainingTime(Math.floor(player.duration - player.currentTime))}</div>
+          <div className="player__time-value">{getFormattedRemainingTime(player.remainingTime)}</div>
         </div>
 
         <div className="player__controls-row">
@@ -112,7 +151,7 @@ const PlayerView = (props) => {
           </button>
           <div className="player__name">{movie.name}</div>
 
-          <button type="button" className="player__full-screen" ref={fullscreenButton}>
+          <button type="button" className="player__full-screen" onClick={openFullscreen}>
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>
             </svg>
