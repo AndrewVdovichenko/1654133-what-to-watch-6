@@ -70,8 +70,8 @@ export const getRuntimeInHoursAndMinutes = (num) => {
 
 export const getFormattedRemainingTime = (num) => {
   const seconds = num % SECONDS_IN_MINUTE;
-  const minutes = Math.floor(num / SECONDS_IN_MINUTE);
   const hours = Math.floor(num / SECONDS_IN_HOUR);
+  const minutes = (num - hours * SECONDS_IN_HOUR - seconds) / SECONDS_IN_MINUTE;
 
   return `${hours}:${minutes.toString().padStart(2, `0`)}:${seconds.toString().padStart(2, `0`)}`;
 };
