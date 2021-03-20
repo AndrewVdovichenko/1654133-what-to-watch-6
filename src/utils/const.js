@@ -23,3 +23,7 @@ export const MOVIE_PAGE_TABS = {
   DETAILS: `Details`,
   REVIEWS: `Reviews`,
 };
+
+export const SECONDS_IN_MINUTE = 60;
+export const MINUTES_IN_HOUR = 60;
+export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * MINUTES_IN_HOUR;
