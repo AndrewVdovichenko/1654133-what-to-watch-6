@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useParams, useHistory} from 'react-router-dom';
 import LoadingView from '../loading-view/loading-view';
 import MovieTabs from '../movie-tabs/movie-tabs';
 import Footer from '../footer/footer';
@@ -19,6 +19,7 @@ const MovieView = (props) => {
   const [activeTab, setActiveTab] = useState(MOVIE_PAGE_TABS.OVERVIEW);
   const {movie, onLoadMovie} = props;
   const isNeedLoading = movieId !== movie.id.toString();
+  const history = useHistory();
 
   useEffect(() => {
     if (isNeedLoading) {
@@ -29,6 +30,7 @@ const MovieView = (props) => {
   if (isNeedLoading) {
     return <LoadingView />;
   }
+
 
   return (
     <React.Fragment>
@@ -65,7 +67,10 @@ const MovieView = (props) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button className="btn btn--play movie-card__button" type="button"
+                  onClick={() => {
+                    history.push(`/player/${movieId}`);
+                  }}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
