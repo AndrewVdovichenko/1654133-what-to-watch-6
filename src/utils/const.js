@@ -27,3 +27,5 @@ export const MOVIE_PAGE_TABS = {
 export const SECONDS_IN_MINUTE = 60;
 export const MINUTES_IN_HOUR = 60;
 export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * MINUTES_IN_HOUR;
+export const INTERVAL_TO_UPDATE_PLAYER_INFO = 500;
+export const HUNDRED_PERCENT = 100;
