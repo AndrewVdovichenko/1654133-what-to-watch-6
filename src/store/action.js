@@ -1,6 +1,5 @@
 export const ActionType = {
   SELECT_GENRE: `app/selectGenre`,
-  GET_FILMS: `app/getFilms`,
   LOAD_FILMS: `data/loadFilms`,
   LOAD_PROMO: `data/loadPromo`,
   REQUIRED_AUTHORIZATION: `user/requiredAuthorization`,
@@ -10,17 +9,14 @@ export const ActionType = {
   LOAD_MOVIE: `data/loadMovie`,
   RESET_MOVIE: `data/resetMovie`,
   LOAD_COMMENTS: `data/loadComments`,
+  LOAD_FAVORITES: `data/loadFavorites`,
+  UPDATE_FAVORITES: `data/updateFavorites`,
 };
 
 export const selectGenre = (genre) => ({
   type: ActionType.SELECT_GENRE,
   payload: genre,
 });
-
-export const getFilms = () => ({
-  type: ActionType.GET_FILMS,
-});
-
 
 export const loadFilms = (films) => ({
   type: ActionType.LOAD_FILMS,
@@ -63,4 +59,13 @@ export const resetMovie = () => ({
 export const loadComments = (comments) => ({
   type: ActionType.LOAD_COMMENTS,
   payload: comments,
+});
+
+export const loadFavorites = (favorites) => ({
+  type: ActionType.LOAD_FAVORITES,
+  payload: favorites,
+});
+
+export const updateFavorites = () => ({
+  type: ActionType.UPDATE_FAVORITES,
 });

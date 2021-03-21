@@ -4,6 +4,7 @@ import {films} from './films/films';
 import {user} from './user/user';
 import {settings} from './settings/settings';
 import {movie} from './movie/movie';
+import {favorites} from './favorites/favorites';
 
 export const Namespace = {
   PROMO: `PROMO`,
@@ -11,6 +12,7 @@ export const Namespace = {
   USER: `USER`,
   SETTINGS: `SETTINGS`,
   MOVIE: `MOVIE`,
+  FAVORITES: `FAVORITES`,
 };
 
 export default combineReducers({
@@ -19,4 +21,5 @@ export default combineReducers({
   [Namespace.USER]: user,
   [Namespace.SETTINGS]: settings,
   [Namespace.MOVIE]: movie,
+  [Namespace.FAVORITES]: favorites,
 });
