@@ -2,13 +2,18 @@ import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link, useParams} from 'react-router-dom';
-import LoadingView from '../loading-view/loading-view';
-import MovieTabs from '../movie-tabs/movie-tabs';
+import Header from '../header/header';
 import Footer from '../footer/footer';
 import LikeThisList from '../like-this-list/like-this-list';
+import LoadingView from '../loading-view/loading-view';
+import Logo from '../logo/logo';
+import MovieDetails from '../movie-details/movie-details';
 import MovieOverview from '../movie-overview/movie-overview';
 import MovieReview from '../movie-review/movie-review';
-import MovieDetails from '../movie-details/movie-details';
+import MovieTabs from '../movie-tabs/movie-tabs';
+import MyListButton from '../my-list-button/my-list-button';
+import PlayButton from '../play-button/play-button';
+import UserBlock from '../user-block/user-block';
 import {getMovie} from '../../store/movie/selectors';
 import {fetchComments, fetchMovie} from '../../store/api-actions';
 import {MOVIE_PAGE_TABS} from '../../utils/const';
@@ -30,6 +35,7 @@ const MovieView = (props) => {
     return <LoadingView />;
   }
 
+
   return (
     <React.Fragment>
       <section className="movie-card movie-card--full">
@@ -40,21 +46,10 @@ const MovieView = (props) => {
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <header className="page-header movie-card__head">
-            <div className="logo">
-              <Link to="/" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </Link>
-            </div>
-
-            <div className="user-block">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </div>
-          </header>
+          <Header>
+            <Logo />
+            <UserBlock />
+          </Header>
 
           <div className="movie-card__wrap">
             <div className="movie-card__desc">
@@ -65,18 +60,8 @@ const MovieView = (props) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+                <PlayButton movieId={movie.id} />
+                <MyListButton movie={movie} />
                 <Link to={`${movieId}/review`} className="btn movie-card__button">Add review</Link>
               </div>
             </div>
@@ -109,6 +94,7 @@ const MovieView = (props) => {
 MovieView.propTypes = {
   movie: MOVIE_PROPS,
   onLoadMovie: PropTypes.func.isRequired,
+  onAddToFavorite: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -119,7 +105,7 @@ const mapDispatchToProps = (dispatch) => ({
   onLoadMovie(movieId) {
     dispatch(fetchMovie(movieId));
     dispatch(fetchComments(movieId));
-  },
+  }
 });
 
 export {MovieView};

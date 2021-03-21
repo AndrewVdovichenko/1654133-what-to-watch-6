@@ -1,4 +1,4 @@
-import {ALL_GENRES, RATING} from './const';
+import {ALL_GENRES, RATING, SECONDS_IN_MINUTE, SECONDS_IN_HOUR, MINUTES_IN_HOUR} from './const';
 
 export const getUniqueGenres = (films) => {
   const uniqueGenres = [ALL_GENRES];
@@ -62,9 +62,16 @@ export const getTextRating = (num) => {
 };
 
 export const getRuntimeInHoursAndMinutes = (num) => {
-  const MINUTES_IN_HOURS = 60;
-  const minutes = num % MINUTES_IN_HOURS;
-  const hours = (num - minutes) / MINUTES_IN_HOURS;
+  const minutes = num % MINUTES_IN_HOUR;
+  const hours = (num - minutes) / MINUTES_IN_HOUR;
 
   return `${hours}h ${minutes}m`;
+};
+
+export const getFormattedRemainingTime = (num) => {
+  const seconds = num % SECONDS_IN_MINUTE;
+  const hours = Math.floor(num / SECONDS_IN_HOUR);
+  const minutes = (num - hours * SECONDS_IN_HOUR - seconds) / SECONDS_IN_MINUTE;
+
+  return `${hours}:${minutes.toString().padStart(2, `0`)}:${seconds.toString().padStart(2, `0`)}`;
 };

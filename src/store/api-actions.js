@@ -1,4 +1,4 @@
-import {loadFilms, loadPromo, requireAuthorization, loadUserInfo, redirectToRoute, loadMovie, loadComments} from './action';
+import {loadFilms, loadPromo, requireAuthorization, loadUserInfo, redirectToRoute, loadMovie, loadComments, loadFavorites, updateFavorites} from './action';
 import {AuthorizationStatus} from '../utils/const';
 import {adaptToClient, adaptUserInfoToClient} from '../utils/helpers';
 
@@ -42,4 +42,16 @@ export const fetchMovie = (id) => (dispatch, _getState, api) => (
 export const fetchComments = (id) => (dispatch, _getState, api) => (
   api.get(`/comments/${id}`)
     .then(({data}) => dispatch(loadComments(data)))
+);
+
+export const addToFavorite = (id, status) => (dispatch, _getState, api) => (
+  api.post(`/favorite/${id}/${status}`)
+    .then(() => dispatch(updateFavorites()))
+    .catch(() => dispatch(redirectToRoute(`/login`)))
+);
+
+export const fetchFavorites = () => (dispatch, _getState, api) => (
+  api.get(`/favorite`)
+    .then(({data}) => data.map((value) => adaptToClient(value)))
+    .then((data) => dispatch(loadFavorites(data)))
 );

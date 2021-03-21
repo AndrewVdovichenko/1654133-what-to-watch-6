@@ -9,7 +9,7 @@ import {FILMS_PROPS} from '../../utils/proptypes';
 import LoadingView from '../loading-view/loading-view';
 import PromoCard from '../promo-card/promo-card';
 import {getLoadedPromoStatus} from '../../store/promo/selectors';
-import {getLoadedFilmsStatus, getFilmsFilteredByGenre} from '../../store/films/selectors';
+import {getLoadedFilmsStatus, filmsFilteredByGenreSelector} from '../../store/films/selectors';
 import {getShowedFilmsCount} from '../../store/settings/selectors';
 
 const MainView = (props) => {
@@ -45,7 +45,7 @@ MainView.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  films: getFilmsFilteredByGenre(state),
+  films: filmsFilteredByGenreSelector(state),
   isDataLoaded: getLoadedFilmsStatus(state) && getLoadedPromoStatus(state),
   showedFilmsCount: getShowedFilmsCount(state),
 });

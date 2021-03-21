@@ -1,12 +1,15 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import Header from '../header/header';
 import Logo from '../logo/logo';
+import MyListButton from '../my-list-button/my-list-button';
+import PlayButton from '../play-button/play-button';
 import UserBlock from '../user-block/user-block';
 import {getPromo} from '../../store/promo/selectors';
 import {PROMO_PROPS} from '../../utils/proptypes';
 
 const PromoCard = ({promo}) => {
-  const {name, genre, released, posterUrl, previewUrl} = promo;
+  const {name, genre, released, posterUrl, previewUrl, id} = promo;
 
   return (
     <section className="movie-card">
@@ -16,10 +19,11 @@ const PromoCard = ({promo}) => {
 
       <h1 className="visually-hidden">WTW</h1>
 
-      <header className="page-header movie-card__head">
+      <Header>
         <Logo />
         <UserBlock />
-      </header>
+      </Header>
+
       <div className="movie-card__wrap">
         <div className="movie-card__info">
           <div className="movie-card__poster">
@@ -34,18 +38,8 @@ const PromoCard = ({promo}) => {
             </p>
 
             <div className="movie-card__buttons">
-              <button className="btn btn--play movie-card__button" type="button">
-                <svg viewBox="0 0 19 19" width="19" height="19">
-                  <use xlinkHref="#play-s"></use>
-                </svg>
-                <span>Play</span>
-              </button>
-              <button className="btn btn--list movie-card__button" type="button">
-                <svg viewBox="0 0 19 20" width="19" height="20">
-                  <use xlinkHref="#add"></use>
-                </svg>
-                <span>My list</span>
-              </button>
+              <PlayButton movieId={id} />
+              <MyListButton movie={promo} />
             </div>
           </div>
         </div>
