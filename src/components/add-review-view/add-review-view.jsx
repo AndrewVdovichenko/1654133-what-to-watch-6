@@ -1,14 +1,27 @@
 import React, {useState} from 'react';
-import {Link, useParams} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import Logo from '../logo/logo';
+import UserBlock from '../user-block/user-block';
 import {RATING_STARS} from '../../utils/const';
-import {FILMS_PROPS} from '../../utils/proptypes';
+import {MOVIE_PROPS} from '../../utils/proptypes';
+import {getMovie} from '../../store/movie/selectors';
+import {postComment} from '../../store/api-actions';
 
 const AddReviewView = (props) => {
-  const movieId = useParams().id;
-  const movie = props.films[movieId - 1];
+  const {movie, onSubmit} = props;
 
   const [star, setStar] = useState(8);
   const [review, setReview] = useState(``);
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    onSubmit(movie.id, {
+      rating: star,
+      comment: review,
+    });
+  };
 
   return (
     <section className="movie-card movie-card--full">
@@ -20,18 +33,12 @@ const AddReviewView = (props) => {
         <h1 className="visually-hidden">WTW</h1>
 
         <header className="page-header">
-          <div className="logo">
-            <Link to="/" className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
+          <Logo />
 
           <nav className="breadcrumbs">
             <ul className="breadcrumbs__list">
               <li className="breadcrumbs__item">
-                <Link to={`/films/${movieId}`} className="breadcrumbs__link">{movie.name}</Link>
+                <Link to={`/films/${movie.id}`} className="breadcrumbs__link">{movie.name}</Link>
               </li>
               <li className="breadcrumbs__item">
                 <a className="breadcrumbs__link">Add review</a>
@@ -39,11 +46,7 @@ const AddReviewView = (props) => {
             </ul>
           </nav>
 
-          <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
-          </div>
+          <UserBlock />
         </header>
 
         <div className="movie-card__poster movie-card__poster--small">
@@ -52,7 +55,7 @@ const AddReviewView = (props) => {
       </div>
 
       <div className="add-review">
-        <form action="#" className="add-review__form">
+        <form action="#" className="add-review__form" onSubmit={handleSubmit}>
           <div className="rating">
             <div className="rating__stars">
               {RATING_STARS.map((value) => {
@@ -96,7 +99,19 @@ const AddReviewView = (props) => {
 };
 
 AddReviewView.propTypes = {
-  films: FILMS_PROPS,
+  movie: MOVIE_PROPS,
+  onSubmit: PropTypes.func.isRequired,
 };
 
-export default AddReviewView;
+const mapStateToProps = (state) => ({
+  movie: getMovie(state)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmit(id, comment) {
+    dispatch(postComment(id, comment));
+  }
+});
+
+export {AddReviewView};
+export default connect(mapStateToProps, mapDispatchToProps)(AddReviewView);
