@@ -15,15 +15,17 @@ import MyListButton from '../my-list-button/my-list-button';
 import PlayButton from '../play-button/play-button';
 import UserBlock from '../user-block/user-block';
 import {getMovie} from '../../store/movie/selectors';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 import {fetchComments, fetchMovie} from '../../store/api-actions';
-import {MOVIE_PAGE_TABS} from '../../utils/const';
+import {MOVIE_PAGE_TABS, AuthorizationStatus} from '../../utils/const';
 import {MOVIE_PROPS} from '../../utils/proptypes';
 
 const MovieView = (props) => {
   const movieId = useParams().id;
   const [activeTab, setActiveTab] = useState(MOVIE_PAGE_TABS.OVERVIEW);
-  const {movie, onLoadMovie} = props;
+  const {movie, authorizationStatus, onLoadMovie} = props;
   const isNeedLoading = movieId !== movie.id.toString();
+  const isAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
 
   useEffect(() => {
     if (isNeedLoading) {
@@ -62,7 +64,7 @@ const MovieView = (props) => {
               <div className="movie-card__buttons">
                 <PlayButton movieId={movie.id} />
                 <MyListButton movie={movie} />
-                <Link to={`${movieId}/review`} className="btn movie-card__button">Add review</Link>
+                {isAuthorized && <Link to={`${movieId}/review`} className="btn movie-card__button">Add review</Link>}
               </div>
             </div>
           </div>
@@ -93,12 +95,14 @@ const MovieView = (props) => {
 
 MovieView.propTypes = {
   movie: MOVIE_PROPS,
+  authorizationStatus: PropTypes.string.isRequired,
   onLoadMovie: PropTypes.func.isRequired,
-  onAddToFavorite: PropTypes.func.isRequired,
+  onAddToFavorite: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
   movie: getMovie(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
