@@ -39,6 +39,11 @@ const movie = (state = initialState, {type, payload}) => {
         ...state,
         comments: payload,
       };
+    case ActionType.UPDATE_FAVORITES:
+      return {
+        ...state,
+        isFavorite: payload,
+      };
     default:
       return state;
   }

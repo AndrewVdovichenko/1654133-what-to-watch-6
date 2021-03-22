@@ -66,6 +66,7 @@ export const loadFavorites = (favorites) => ({
   payload: favorites,
 });
 
-export const updateFavorites = () => ({
+export const updateFavorites = (status) => ({
   type: ActionType.UPDATE_FAVORITES,
+  payload: status,
 });
