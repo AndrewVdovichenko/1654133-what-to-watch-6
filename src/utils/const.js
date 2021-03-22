@@ -29,3 +29,8 @@ export const MINUTES_IN_HOUR = 60;
 export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * MINUTES_IN_HOUR;
 export const INTERVAL_TO_UPDATE_PLAYER_INFO = 500;
 export const HUNDRED_PERCENT = 100;
+
+export const HttpCode = {
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
+};
