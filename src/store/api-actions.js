@@ -1,5 +1,5 @@
 import {loadFilms, loadPromo, requireAuthorization, loadUserInfo, redirectToRoute, loadMovie, loadComments, loadFavorites, updateFavorites} from './action';
-import {AuthorizationStatus} from '../utils/const';
+import {AuthorizationStatus, HttpCode} from '../utils/const';
 import {adaptToClient, adaptUserInfoToClient} from '../utils/helpers';
 
 export const fetchFilmsList = () => (dispatch, _getState, api) => (
@@ -37,6 +37,11 @@ export const fetchMovie = (id) => (dispatch, _getState, api) => (
   api.get(`/films/${id}`)
     .then(({data}) => adaptToClient(data))
     .then((data) => dispatch(loadMovie(data)))
+    .catch((error) => {
+      if (error.response.status === HttpCode.NOT_FOUND) {
+        dispatch(redirectToRoute(`/404`));
+      }
+    })
 );
 
 export const fetchComments = (id) => (dispatch, _getState, api) => (
@@ -46,7 +51,7 @@ export const fetchComments = (id) => (dispatch, _getState, api) => (
 
 export const addToFavorite = (id, status) => (dispatch, _getState, api) => (
   api.post(`/favorite/${id}/${status}`)
-    .then(() => dispatch(updateFavorites()))
+    .then(() => dispatch(updateFavorites(status === 1)))
     .catch(() => dispatch(redirectToRoute(`/login`)))
 );
 
@@ -54,4 +59,11 @@ export const fetchFavorites = () => (dispatch, _getState, api) => (
   api.get(`/favorite`)
     .then(({data}) => data.map((value) => adaptToClient(value)))
     .then((data) => dispatch(loadFavorites(data)))
+);
+
+export const postComment = (id, comment) => (dispatch, _getState, api) => (
+  api.post(`/comments/${id}`, comment)
+    .then(() => dispatch(redirectToRoute(`/films/${id}`)))
+    .then(() => dispatch(fetchComments(id)))
+    .catch(() => {})
 );
