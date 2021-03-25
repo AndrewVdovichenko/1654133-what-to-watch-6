@@ -14,3 +14,5 @@ package-lock.json
 
 public/bundle.js
 public/bundle.js.map
+
+coverage/
