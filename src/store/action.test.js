@@ -115,7 +115,7 @@ describe(`Actions work correctly`, () => {
   });
 
   it(`should create an action to redirect to route with payload`, () => {
-    const url = '/some-url';
+    const url = `/some-url`;
     const expectedAction = {
       type: ActionType.REDIRECT_TO_ROUTE,
       payload: url,
@@ -166,7 +166,7 @@ describe(`Actions work correctly`, () => {
     const expectedAction = {
       type: ActionType.UPDATE_FAVORITES,
       payload: status,
-    }
+    };
 
     expect(updateFavorites(status)).toEqual(expectedAction);
   });
