@@ -1,21 +1,20 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import LoadingView from '../loading-view/loading-view';
 import Logo from '../logo/logo';
 import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
 import UserBlock from '../user-block/user-block';
-import {FILMS_PROPS} from '../../utils/proptypes';
-import {getFavorites, getLoadedFavoritesStatus} from '../../store/favorites/selectors';
 import {fetchFavorites} from '../../store/api-actions';
 
-const MyListView = (props) => {
-  const {myMovies, isFavoritesLoaded, onLoadFavorites} = props;
+const MyListView = () => {
+  const {favorites: myMovies, isFavoritesLoaded} = useSelector((state) => state.FAVORITES);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!isFavoritesLoaded) {
-      onLoadFavorites();
+      dispatch(fetchFavorites());
     }
   }, [isFavoritesLoaded]);
 
@@ -45,22 +44,4 @@ const MyListView = (props) => {
   );
 };
 
-MyListView.propTypes = {
-  myMovies: FILMS_PROPS,
-  isFavoritesLoaded: PropTypes.bool.isRequired,
-  onLoadFavorites: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  myMovies: getFavorites(state),
-  isFavoritesLoaded: getLoadedFavoritesStatus(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadFavorites() {
-    dispatch(fetchFavorites());
-  }
-});
-
-export {MyListView};
-export default connect(mapStateToProps, mapDispatchToProps)(MyListView);
+export default MyListView;

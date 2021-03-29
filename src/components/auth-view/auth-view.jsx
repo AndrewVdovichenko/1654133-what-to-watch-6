@@ -1,20 +1,23 @@
 import React, {useRef} from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux';
 import Footer from '../footer/footer';
 import Logo from '../logo/logo';
 import {login} from '../../store/api-actions';
 
-const AuthView = ({onSubmit}) => {
+const AuthView = () => {
   const loginRef = useRef();
   const passwordRef = useRef();
 
+  const dispatch = useDispatch();
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onSubmit({
+    const authData = {
       login: loginRef.current.value,
       password: passwordRef.current.value,
-    });
+    };
+
+    dispatch(login(authData));
   };
 
   return (
@@ -62,15 +65,4 @@ const AuthView = ({onSubmit}) => {
   );
 };
 
-AuthView.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(authData) {
-    dispatch(login(authData));
-  }
-});
-
-export {AuthView};
-export default connect(null, mapDispatchToProps)(AuthView);
+export default AuthView;

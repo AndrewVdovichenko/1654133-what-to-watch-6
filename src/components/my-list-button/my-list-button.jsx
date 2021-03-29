@@ -1,16 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {MOVIE_PROPS} from '../../utils/proptypes';
 import {addToFavorite, fetchMovie} from '../../store/api-actions';
 
 const MyListButton = (props) => {
   const {id, isFavorite} = props.movie;
-  const {onAddToFavorite} = props;
+
+  const dispatch = useDispatch();
 
   const addToFavoriteClick = () => {
     const status = !isFavorite ? 1 : 0;
-    onAddToFavorite(id, status);
+    dispatch(addToFavorite(id, status));
+    dispatch(fetchMovie(id));
   };
 
   return (
@@ -32,15 +33,6 @@ const MyListButton = (props) => {
 
 MyListButton.propTypes = {
   movie: MOVIE_PROPS,
-  onAddToFavorite: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onAddToFavorite(movieId, status) {
-    dispatch(addToFavorite(movieId, status));
-    dispatch(fetchMovie(movieId));
-  }
-});
-
-export {MyListButton};
-export default connect(null, mapDispatchToProps)(MyListButton);
+export default MyListButton;

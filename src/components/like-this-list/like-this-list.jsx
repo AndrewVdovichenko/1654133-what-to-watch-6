@@ -1,10 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import MoviesList from '../movies-list/movies-list';
-import {FILMS_PROPS} from '../../utils/proptypes';
 import {similarFilmsSelector} from '../../store/films/selectors';
 
-const LikeThisList = ({films}) => {
+const LikeThisList = () => {
+  const films = useSelector(similarFilmsSelector);
 
   return (
     <section className="catalog catalog--like-this">
@@ -15,13 +15,4 @@ const LikeThisList = ({films}) => {
   );
 };
 
-LikeThisList.propTypes = {
-  films: FILMS_PROPS,
-};
-
-const mapStateToProps = (state) => ({
-  films: similarFilmsSelector(state),
-});
-
-export {LikeThisList};
-export default connect(mapStateToProps, null)(LikeThisList);
+export default LikeThisList;

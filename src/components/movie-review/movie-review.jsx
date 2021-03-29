@@ -1,10 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {getComments} from '../../store/movie/selectors';
-import {REVIEWS_PROPS} from '../../utils/proptypes';
+import {useSelector} from 'react-redux';
 import ReviewItem from '../review-item/review-item';
 
-const MovieReview = ({comments}) => {
+const MovieReview = () => {
+  const comments = useSelector((state) => state.MOVIE.comments);
+
   const rightColumnReviews = comments.filter((_, key) => key % 2);
   const leftColumnReviews = comments.filter((_, key) => !(key % 2));
 
@@ -20,13 +20,4 @@ const MovieReview = ({comments}) => {
   );
 };
 
-MovieReview.propTypes = {
-  comments: REVIEWS_PROPS,
-};
-
-const mapStateToProps = (state) => ({
-  comments: getComments(state),
-});
-
-export {MovieReview};
-export default connect(mapStateToProps, null)(MovieReview);
+export default MovieReview;

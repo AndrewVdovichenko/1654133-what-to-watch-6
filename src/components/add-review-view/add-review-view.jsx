@@ -1,26 +1,24 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
 import {RATING_STARS} from '../../utils/const';
-import {MOVIE_PROPS} from '../../utils/proptypes';
-import {getMovie} from '../../store/movie/selectors';
 import {postComment} from '../../store/api-actions';
 
-const AddReviewView = (props) => {
-  const {movie, onSubmit} = props;
+const AddReviewView = () => {
+  const {movie} = useSelector((state) => state.MOVIE);
+  const dispatch = useDispatch();
 
   const [star, setStar] = useState(8);
   const [review, setReview] = useState(``);
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onSubmit(movie.id, {
+    dispatch(postComment(movie.id, {
       rating: star,
       comment: review,
-    });
+    }));
   };
 
   return (
@@ -98,20 +96,4 @@ const AddReviewView = (props) => {
   );
 };
 
-AddReviewView.propTypes = {
-  movie: MOVIE_PROPS,
-  onSubmit: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  movie: getMovie(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(id, comment) {
-    dispatch(postComment(id, comment));
-  }
-});
-
-export {AddReviewView};
-export default connect(mapStateToProps, mapDispatchToProps)(AddReviewView);
+export default AddReviewView;
