@@ -15,4 +15,4 @@ const LikeThisList = () => {
   );
 };
 
-export default LikeThisList;
+export default React.memo(LikeThisList);

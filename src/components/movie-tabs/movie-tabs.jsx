@@ -34,4 +34,4 @@ MovieTabs.propTypes = {
   onChangeTab: PropTypes.func.isRequired,
 };
 
-export default MovieTabs;
+export default React.memo(MovieTabs);

@@ -36,4 +36,4 @@ AuthorizedUser.propTypes = {
   avatarUrl: PropTypes.string.isRequired,
 };
 
-export default UserBlock;
+export default React.memo(UserBlock);

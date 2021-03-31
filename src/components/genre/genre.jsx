@@ -30,4 +30,4 @@ Genre.propTypes = {
   onSelectGenre: PropTypes.func.isRequired,
 };
 
-export default Genre;
+export default React.memo(Genre);

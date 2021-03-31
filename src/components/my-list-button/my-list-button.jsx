@@ -38,4 +38,4 @@ MyListButton.propTypes = {
   onAfterClick: PropTypes.func.isRequired,
 };
 
-export default MyListButton;
+export default React.memo(MyListButton);
