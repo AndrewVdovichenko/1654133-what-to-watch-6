@@ -36,3 +36,5 @@ export const HttpCode = {
 };
 
 export const PAUSE_BEFORE_AUTOPLAY = 1000;
+
+export const MAX_GENRES = 9;

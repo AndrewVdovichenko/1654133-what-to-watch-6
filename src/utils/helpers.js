@@ -1,13 +1,16 @@
-import {ALL_GENRES, RATING, SECONDS_IN_MINUTE, SECONDS_IN_HOUR, MINUTES_IN_HOUR} from './const';
+import {ALL_GENRES, RATING, SECONDS_IN_MINUTE, SECONDS_IN_HOUR, MINUTES_IN_HOUR, MAX_GENRES} from './const';
 
 export const getUniqueGenres = (films) => {
-  const uniqueGenres = [ALL_GENRES];
+  let uniqueGenres = [];
 
   for (const movie of films) {
     if (!uniqueGenres.includes(movie.genre)) {
       uniqueGenres.push(movie.genre);
     }
   }
+
+  uniqueGenres = uniqueGenres.slice(0, MAX_GENRES).sort();
+  uniqueGenres.unshift(ALL_GENRES);
 
   return uniqueGenres;
 };
