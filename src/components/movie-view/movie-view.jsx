@@ -33,6 +33,8 @@ const MovieView = () => {
       dispatch(fetchMovie(movieId));
       dispatch(fetchComments(movieId));
     }
+
+    return setActiveTab(MOVIE_PAGE_TABS.OVERVIEW);
   }, [isNeedLoading]);
 
   if (isNeedLoading) {
