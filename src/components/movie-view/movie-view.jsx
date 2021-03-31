@@ -13,7 +13,7 @@ import MovieTabs from '../movie-tabs/movie-tabs';
 import MyListButton from '../my-list-button/my-list-button';
 import PlayButton from '../play-button/play-button';
 import UserBlock from '../user-block/user-block';
-import {fetchComments, fetchMovie} from '../../store/api-actions';
+import {fetchMovie} from '../../store/api-actions';
 import {MOVIE_PAGE_TABS, AuthorizationStatus} from '../../utils/const';
 
 const MovieView = () => {
@@ -31,7 +31,6 @@ const MovieView = () => {
   useEffect(() => {
     if (isNeedLoading) {
       dispatch(fetchMovie(movieId));
-      dispatch(fetchComments(movieId));
     }
 
     return setActiveTab(MOVIE_PAGE_TABS.OVERVIEW);
@@ -67,7 +66,7 @@ const MovieView = () => {
 
               <div className="movie-card__buttons">
                 <PlayButton movieId={movie.id} />
-                <MyListButton movie={movie} />
+                <MyListButton movie={movie} onAfterClick={fetchMovie(movieId)}/>
                 {isAuthorized && <Link to={`${movieId}/review`} className="btn movie-card__button">Add review</Link>}
               </div>
             </div>

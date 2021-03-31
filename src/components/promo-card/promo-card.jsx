@@ -1,5 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
+import {fetchPromoMovie} from '../../store/api-actions';
 import Header from '../header/header';
 import Logo from '../logo/logo';
 import MyListButton from '../my-list-button/my-list-button';
@@ -38,7 +39,7 @@ const PromoCard = () => {
 
             <div className="movie-card__buttons">
               <PlayButton movieId={id} />
-              <MyListButton movie={promo} />
+              <MyListButton movie={promo} onAfterClick={fetchPromoMovie()}/>
             </div>
           </div>
         </div>
