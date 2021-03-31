@@ -1,14 +1,24 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import Videoplayer from '../videoplayer/videoplayer';
+import {PAUSE_BEFORE_AUTOPLAY} from '../../utils/const';
 import {MOVIE_PROPS} from '../../utils/proptypes';
-
-const PAUSE_BEFORE_AUTOPLAY = 1000;
 
 const SmallMovieCard = (props) => {
   const [isVideoplayerActive, setVideoplayerActive] = useState(false);
   const timer = useRef(null);
   const {name, previewUrl, id} = props.movie;
+
+  useEffect(() => {
+    let mounted = true;
+
+    return () => {
+      if (mounted) {
+        clearTimeout(timer.current);
+        mounted = false;
+      }
+    };
+  }, []);
 
   const handleMouseEnter = () => {
     timer.current = setTimeout(() => {

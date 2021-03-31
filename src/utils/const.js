@@ -34,3 +34,5 @@ export const HttpCode = {
   UNAUTHORIZED: 401,
   NOT_FOUND: 404,
 };
+
+export const PAUSE_BEFORE_AUTOPLAY = 1000;
