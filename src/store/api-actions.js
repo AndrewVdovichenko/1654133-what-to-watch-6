@@ -36,6 +36,7 @@ export const fetchMovie = (id) => (dispatch, _getState, api) => (
   api.get(`/films/${id}`)
     .then(({data}) => adaptToClient(data))
     .then((data) => dispatch(loadMovie(data)))
+    .then(() => dispatch(fetchComments(id)))
     .catch((error) => {
       if (error.response.status === HttpCode.NOT_FOUND) {
         dispatch(redirectToRoute(`/404`));
