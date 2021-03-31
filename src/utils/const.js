@@ -38,3 +38,6 @@ export const HttpCode = {
 export const PAUSE_BEFORE_AUTOPLAY = 1000;
 
 export const MAX_GENRES = 9;
+
+export const MIN_REVIEW_LENGTH = 50;
+export const MAX_REVIEW_LENGTH = 400;

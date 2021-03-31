@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
 import UserBlock from '../user-block/user-block';
-import {RATING_STARS} from '../../utils/const';
+import {MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, RATING_STARS} from '../../utils/const';
 import {postComment} from '../../store/api-actions';
 
 const AddReviewView = () => {
@@ -12,6 +12,8 @@ const AddReviewView = () => {
 
   const [star, setStar] = useState(8);
   const [review, setReview] = useState(``);
+
+  const isAbleToPost = review.length >= MIN_REVIEW_LENGTH && review.length <= MAX_REVIEW_LENGTH;
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -85,7 +87,7 @@ const AddReviewView = () => {
               onChange={(evt) => setReview(evt.target.value)}>
             </textarea>
             <div className="add-review__submit">
-              <button className="add-review__btn" type="submit">Post</button>
+              <button className="add-review__btn" type="submit" disabled={!isAbleToPost}>Post</button>
             </div>
 
           </div>
