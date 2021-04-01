@@ -4,10 +4,15 @@ import {Router} from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import * as redux from 'react-redux';
 import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import {ALL_GENRES, FILMS_PER_STEP, AuthorizationStatus} from '../../utils/const';
 import App from './app';
+import {createAPI} from '../../services/api';
 
-const mockStore = configureStore({});
+const api = createAPI(() => {});
+const middlewares = [thunk.withExtraArgument(api)];
+const mockStore = configureStore(middlewares);
+
 describe(`Test routing`, () => {
   jest.spyOn(redux, `useSelector`);
   jest.spyOn(redux, `useDispatch`);
@@ -119,12 +124,18 @@ describe(`Test routing`, () => {
     expect(screen.getByText(/Post/i)).toBeInTheDocument();
   });
 
-  it(`renders 'AuthView' when user navigate to '/login' url`, () => {
+  it(`renders 'AuthView' when unauthorized user navigate to '/login' url`, () => {
+    const store = mockStore({
+      USER: {
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
+      },
+    });
+
     const history = createMemoryHistory();
     history.push(`/login`);
 
     render(
-        <redux.Provider store={mockStore({})}>
+        <redux.Provider store={store}>
           <Router history={history}>
             <App />
           </Router>
