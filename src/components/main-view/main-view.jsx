@@ -1,5 +1,5 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
 import GenresList from '../genres-list/genres-list';
@@ -7,6 +7,9 @@ import ShowMore from '../show-more/show-more';
 import LoadingView from '../loading-view/loading-view';
 import PromoCard from '../promo-card/promo-card';
 import {filmsFilteredByGenreSelector} from '../../store/films/selectors';
+import {fetchFilmsList, fetchPromoMovie} from '../../store/api-actions';
+import {selectGenre} from '../../store/action';
+import {ALL_GENRES} from '../../utils/const';
 
 const MainView = () => {
   const films = useSelector(filmsFilteredByGenreSelector);
@@ -14,6 +17,17 @@ const MainView = () => {
   const {isPromoLoaded} = useSelector((state) => state.PROMO);
   const {showedFilmsCount} = useSelector((state) => state.SETTINGS);
   const isDataLoaded = isFilmsLoaded && isPromoLoaded;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      dispatch(fetchFilmsList());
+    }
+
+    dispatch(fetchPromoMovie());
+    dispatch(selectGenre(ALL_GENRES));
+  }, [isDataLoaded]);
 
   if (!isDataLoaded) {
     return <LoadingView />;
