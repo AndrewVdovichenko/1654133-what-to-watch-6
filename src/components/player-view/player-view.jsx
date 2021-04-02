@@ -1,17 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {useParams, useHistory} from 'react-router-dom';
 import LoadingView from '../loading-view/loading-view';
 import {fetchMovie} from '../../store/api-actions';
-import {getMovie} from '../../store/movie/selectors';
-import {MOVIE_PROPS} from '../../utils/proptypes';
 import {SECONDS_IN_MINUTE, INTERVAL_TO_UPDATE_PLAYER_INFO, HUNDRED_PERCENT} from '../../utils/const';
 import {getFormattedRemainingTime} from '../../utils/helpers';
 
-const PlayerView = (props) => {
+const PlayerView = () => {
   const movieId = useParams().id;
-  const {movie, onLoadMovie} = props;
+  const movie = useSelector((state) => state.MOVIE.movie);
   const isNeedLoading = movieId !== movie.id.toString();
 
   const video = useRef(null);
@@ -26,9 +23,11 @@ const PlayerView = (props) => {
     remainingTime: null,
   });
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (isNeedLoading) {
-      onLoadMovie(movieId);
+      dispatch(fetchMovie(movieId));
     } else {
       setPlayer({
         ...player,
@@ -163,20 +162,4 @@ const PlayerView = (props) => {
   );
 };
 
-PlayerView.propTypes = {
-  movie: MOVIE_PROPS,
-  onLoadMovie: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  movie: getMovie(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadMovie(movieId) {
-    dispatch(fetchMovie(movieId));
-  },
-});
-
-export {PlayerView};
-export default connect(mapStateToProps, mapDispatchToProps)(PlayerView);
+export default PlayerView;

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
 import {Link, useParams} from 'react-router-dom';
 import Header from '../header/header';
 import Footer from '../footer/footer';
@@ -14,23 +13,27 @@ import MovieTabs from '../movie-tabs/movie-tabs';
 import MyListButton from '../my-list-button/my-list-button';
 import PlayButton from '../play-button/play-button';
 import UserBlock from '../user-block/user-block';
-import {getMovie} from '../../store/movie/selectors';
-import {getAuthorizationStatus} from '../../store/user/selectors';
-import {fetchComments, fetchMovie} from '../../store/api-actions';
+import {fetchMovie} from '../../store/api-actions';
 import {MOVIE_PAGE_TABS, AuthorizationStatus} from '../../utils/const';
-import {MOVIE_PROPS} from '../../utils/proptypes';
 
-const MovieView = (props) => {
+const MovieView = () => {
   const movieId = useParams().id;
   const [activeTab, setActiveTab] = useState(MOVIE_PAGE_TABS.OVERVIEW);
-  const {movie, authorizationStatus, onLoadMovie} = props;
+
+  const movie = useSelector((state) => state.MOVIE.movie);
+  const authorizationStatus = useSelector((state) => state.USER.authorizationStatus);
+
   const isNeedLoading = movieId !== movie.id.toString();
   const isAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (isNeedLoading) {
-      onLoadMovie(movieId);
+      dispatch(fetchMovie(movieId));
     }
+
+    return setActiveTab(MOVIE_PAGE_TABS.OVERVIEW);
   }, [isNeedLoading]);
 
   if (isNeedLoading) {
@@ -63,7 +66,7 @@ const MovieView = (props) => {
 
               <div className="movie-card__buttons">
                 <PlayButton movieId={movie.id} />
-                <MyListButton movie={movie} />
+                <MyListButton movie={movie} onAfterClick={fetchMovie(movieId)}/>
                 {isAuthorized && <Link to={`${movieId}/review`} className="btn movie-card__button">Add review</Link>}
               </div>
             </div>
@@ -93,24 +96,4 @@ const MovieView = (props) => {
   );
 };
 
-MovieView.propTypes = {
-  movie: MOVIE_PROPS,
-  authorizationStatus: PropTypes.string.isRequired,
-  onLoadMovie: PropTypes.func.isRequired,
-  onAddToFavorite: PropTypes.func,
-};
-
-const mapStateToProps = (state) => ({
-  movie: getMovie(state),
-  authorizationStatus: getAuthorizationStatus(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onLoadMovie(movieId) {
-    dispatch(fetchMovie(movieId));
-    dispatch(fetchComments(movieId));
-  }
-});
-
-export {MovieView};
-export default connect(mapStateToProps, mapDispatchToProps)(MovieView);
+export default MovieView;

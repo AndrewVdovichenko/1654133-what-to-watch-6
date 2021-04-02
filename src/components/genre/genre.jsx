@@ -1,10 +1,10 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {getSelectedGenre} from '../../store/settings/selectors';
 
 const Genre = (props) => {
-  const {title, genre, onSelectGenre} = props;
+  const {title, onSelectGenre} = props;
+  const genre = useSelector((state) => state.SETTINGS.genre);
   const isActive = title === genre;
 
   return (
@@ -27,13 +27,7 @@ const Genre = (props) => {
 
 Genre.propTypes = {
   title: PropTypes.string.isRequired,
-  genre: PropTypes.string.isRequired,
   onSelectGenre: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  genre: getSelectedGenre(state),
-});
-
-export {Genre};
-export default connect(mapStateToProps, null)(Genre);
+export default React.memo(Genre);

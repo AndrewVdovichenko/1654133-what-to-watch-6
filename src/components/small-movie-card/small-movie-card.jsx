@@ -1,14 +1,25 @@
-import React, {useState, useRef} from 'react';
-import {Link} from 'react-router-dom';
+import React, {useState, useRef, useEffect} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 import Videoplayer from '../videoplayer/videoplayer';
+import {PAUSE_BEFORE_AUTOPLAY} from '../../utils/const';
 import {MOVIE_PROPS} from '../../utils/proptypes';
-
-const PAUSE_BEFORE_AUTOPLAY = 1000;
 
 const SmallMovieCard = (props) => {
   const [isVideoplayerActive, setVideoplayerActive] = useState(false);
   const timer = useRef(null);
   const {name, previewUrl, id} = props.movie;
+  const history = useHistory();
+
+  useEffect(() => {
+    let mounted = true;
+
+    return () => {
+      if (mounted) {
+        clearTimeout(timer.current);
+        mounted = false;
+      }
+    };
+  }, []);
 
   const handleMouseEnter = () => {
     timer.current = setTimeout(() => {
@@ -21,11 +32,16 @@ const SmallMovieCard = (props) => {
     setVideoplayerActive(false);
   };
 
+  const handleCardClick = () => {
+    history.push(`/films/${id}`);
+  };
+
   return (
     <article
       className="small-movie-card catalog__movies-card"
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}>
+      onMouseLeave={handleMouseLeave}
+      onClick={handleCardClick}>
       <div className="small-movie-card__image">
         {isVideoplayerActive
           ? <Videoplayer movie={props.movie} />

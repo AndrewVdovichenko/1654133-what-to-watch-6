@@ -1,20 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {MOVIE_PROPS} from '../../utils/proptypes';
-import {addToFavorite, fetchMovie} from '../../store/api-actions';
+import {addToFavorite} from '../../store/api-actions';
 
 const MyListButton = (props) => {
   const {id, isFavorite} = props.movie;
-  const {onAddToFavorite} = props;
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
-  const addToFavoriteClick = () => {
+  const dispatch = useDispatch();
+
+  const handleAddToFavoriteClick = () => {
     const status = !isFavorite ? 1 : 0;
-    onAddToFavorite(id, status);
+
+    const updateFavoriteStatus = async () => {
+      setButtonDisabled(true);
+
+      await dispatch(addToFavorite(id, status));
+      await dispatch(props.onAfterClick);
+
+      setButtonDisabled(false);
+    };
+
+    updateFavoriteStatus();
   };
 
   return (
-    <button className="btn btn--list movie-card__button" type="button" onClick={() => addToFavoriteClick()}>
+    <button className="btn btn--list movie-card__button" type="button" onClick={handleAddToFavoriteClick} disabled={buttonDisabled}>
       {isFavorite
         ?
         <svg viewBox="0 0 18 14" width="18" height="14">
@@ -32,15 +44,7 @@ const MyListButton = (props) => {
 
 MyListButton.propTypes = {
   movie: MOVIE_PROPS,
-  onAddToFavorite: PropTypes.func.isRequired,
+  onAfterClick: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onAddToFavorite(movieId, status) {
-    dispatch(addToFavorite(movieId, status));
-    dispatch(fetchMovie(movieId));
-  }
-});
-
-export {MyListButton};
-export default connect(null, mapDispatchToProps)(MyListButton);
+export default React.memo(MyListButton);

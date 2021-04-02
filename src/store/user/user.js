@@ -12,16 +12,16 @@ const initialState = {
 
 const user = (state = initialState, {type, payload}) => {
   switch (type) {
-    case ActionType.REQUIRED_AUTHORIZATION:
-      return {
-        ...state,
-        authorizationStatus: payload,
-      };
-
     case ActionType.LOAD_USER_INFO:
       return {
         ...state,
         user: payload,
+      };
+
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: payload,
       };
 
     default:

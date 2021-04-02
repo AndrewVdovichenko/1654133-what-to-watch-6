@@ -1,19 +1,33 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import MoviesList from '../movies-list/movies-list';
 import Footer from '../footer/footer';
 import GenresList from '../genres-list/genres-list';
 import ShowMore from '../show-more/show-more';
-import {FILMS_PROPS} from '../../utils/proptypes';
 import LoadingView from '../loading-view/loading-view';
 import PromoCard from '../promo-card/promo-card';
-import {getLoadedPromoStatus} from '../../store/promo/selectors';
-import {getLoadedFilmsStatus, filmsFilteredByGenreSelector} from '../../store/films/selectors';
-import {getShowedFilmsCount} from '../../store/settings/selectors';
+import {filmsFilteredByGenreSelector} from '../../store/films/selectors';
+import {fetchFilmsList, fetchPromoMovie} from '../../store/api-actions';
+import {selectGenre} from '../../store/action';
+import {ALL_GENRES} from '../../utils/const';
 
-const MainView = (props) => {
-  const {films, isDataLoaded, showedFilmsCount} = props;
+const MainView = () => {
+  const films = useSelector(filmsFilteredByGenreSelector);
+  const {isFilmsLoaded} = useSelector((state) => state.FILMS);
+  const {isPromoLoaded} = useSelector((state) => state.PROMO);
+  const {showedFilmsCount} = useSelector((state) => state.SETTINGS);
+  const isDataLoaded = isFilmsLoaded && isPromoLoaded;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      dispatch(fetchFilmsList());
+    }
+
+    dispatch(fetchPromoMovie());
+    dispatch(selectGenre(ALL_GENRES));
+  }, [isDataLoaded]);
 
   if (!isDataLoaded) {
     return <LoadingView />;
@@ -38,17 +52,4 @@ const MainView = (props) => {
   );
 };
 
-MainView.propTypes = {
-  films: FILMS_PROPS,
-  isDataLoaded: PropTypes.bool.isRequired,
-  showedFilmsCount: PropTypes.number.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  films: filmsFilteredByGenreSelector(state),
-  isDataLoaded: getLoadedFilmsStatus(state) && getLoadedPromoStatus(state),
-  showedFilmsCount: getShowedFilmsCount(state),
-});
-
-export {MainView};
-export default connect(mapStateToProps, null)(MainView);
+export default MainView;

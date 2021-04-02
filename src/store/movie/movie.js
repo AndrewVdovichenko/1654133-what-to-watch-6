@@ -26,24 +26,31 @@ const initialState = {
 
 const movie = (state = initialState, {type, payload}) => {
   switch (type) {
+    case ActionType.LOAD_COMMENTS:
+      return {
+        ...state,
+        comments: payload,
+      };
+
     case ActionType.LOAD_MOVIE:
       return {
         ...state,
         movie: payload,
         isMovieLoaded: true,
       };
+
     case ActionType.RESET_MOVIE:
       return initialState;
-    case ActionType.LOAD_COMMENTS:
-      return {
-        ...state,
-        comments: payload,
-      };
+
     case ActionType.UPDATE_FAVORITES:
       return {
         ...state,
-        isFavorite: payload,
+        movie: {
+          ...state.movie,
+          isFavorite: payload,
+        },
       };
+
     default:
       return state;
   }

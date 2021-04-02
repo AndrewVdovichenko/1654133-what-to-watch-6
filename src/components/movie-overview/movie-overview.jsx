@@ -1,11 +1,9 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {getMovie} from '../../store/movie/selectors';
+import {useSelector} from 'react-redux';
 import {getTextRating} from '../../utils/helpers';
-import {MOVIE_PROPS} from '../../utils/proptypes';
 
-const MovieOverview = ({movie}) => {
-  const {rating, scoresCount, director, starring} = movie;
+const MovieOverview = () => {
+  const {rating, scoresCount, director, starring, description} = useSelector((state) => state.MOVIE.movie);
 
   return (
     <>
@@ -18,7 +16,7 @@ const MovieOverview = ({movie}) => {
       </div>
 
       <div className="movie-card__text">
-        <p>{movie.description}</p>
+        <p>{description}</p>
         <p className="movie-card__director"><strong>Director: {director}</strong></p>
 
         <p className="movie-card__starring"><strong>Starring: {starring.join(`, `)} and other</strong></p>
@@ -27,13 +25,4 @@ const MovieOverview = ({movie}) => {
   );
 };
 
-MovieOverview.propTypes = {
-  movie: MOVIE_PROPS,
-};
-
-const mapStateToProps = (state) => ({
-  movie: getMovie(state),
-});
-
-export {MovieOverview};
-export default connect(mapStateToProps, null)(MovieOverview);
+export default MovieOverview;

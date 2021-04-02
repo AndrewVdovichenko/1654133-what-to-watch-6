@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {AuthorizationStatus} from '../../utils/const';
-import {getAuthorizationStatus, getUser} from '../../store/user/selectors';
 
 const AuthorizedUser = ({avatarUrl}) => {
   return (
@@ -19,7 +18,10 @@ const UnauthorizedUser = () => {
   );
 };
 
-const UserBlock = ({authorizationStatus, avatarUrl}) => {
+const UserBlock = () => {
+  const {authorizationStatus, user} = useSelector((state) => state.USER);
+  const {avatarUrl} = user;
+
   return (
     <div className="user-block">
       {authorizationStatus === AuthorizationStatus.AUTH
@@ -34,15 +36,4 @@ AuthorizedUser.propTypes = {
   avatarUrl: PropTypes.string.isRequired,
 };
 
-UserBlock.propTypes = {
-  authorizationStatus: PropTypes.string.isRequired,
-  avatarUrl: PropTypes.string,
-};
-
-const mapStateToProps = (state) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-  avatarUrl: getUser(state).avatarUrl,
-});
-
-export {UserBlock};
-export default connect(mapStateToProps, null)(UserBlock);
+export default React.memo(UserBlock);

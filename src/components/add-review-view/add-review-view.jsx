@@ -1,26 +1,44 @@
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
+import Unavailable from '../unavailable/unavailable';
 import UserBlock from '../user-block/user-block';
-import {RATING_STARS} from '../../utils/const';
-import {MOVIE_PROPS} from '../../utils/proptypes';
-import {getMovie} from '../../store/movie/selectors';
+import {MAX_REVIEW_LENGTH, MIN_REVIEW_LENGTH, RATING_STARS} from '../../utils/const';
 import {postComment} from '../../store/api-actions';
 
-const AddReviewView = (props) => {
-  const {movie, onSubmit} = props;
+const AddReviewView = () => {
+  const {movie} = useSelector((state) => state.MOVIE);
+  const dispatch = useDispatch();
 
   const [star, setStar] = useState(8);
   const [review, setReview] = useState(``);
+  const [formBlocked, setFormBlocked] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+
+  const isAbleToPost = review.length >= MIN_REVIEW_LENGTH && review.length <= MAX_REVIEW_LENGTH;
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onSubmit(movie.id, {
-      rating: star,
-      comment: review,
-    });
+
+    const postingComment = async () => {
+      setFormBlocked(true);
+
+      try {
+        await dispatch(postComment(movie.id, {
+          rating: star,
+          comment: review,
+        }));
+
+        setErrorMessageVisible(false);
+      } catch (error) {
+        setErrorMessageVisible(true);
+      }
+
+      setFormBlocked(false);
+    };
+
+    postingComment();
   };
 
   return (
@@ -56,62 +74,50 @@ const AddReviewView = (props) => {
 
       <div className="add-review">
         <form action="#" className="add-review__form" onSubmit={handleSubmit}>
-          <div className="rating">
-            <div className="rating__stars">
-              {RATING_STARS.map((value) => {
-                return (
-                  <React.Fragment key={value}>
-                    <input
-                      className="rating__input"
-                      id={`star-${value}`}
-                      type="radio"
-                      name="rating"
-                      value={value}
-                      onClick={(evt) => setStar(evt.target.value)}
-                      defaultChecked={star === value}
-                    />
-                    <label className="rating__label" htmlFor={`star-${value}`}>Rating {value}</label>
-                  </React.Fragment>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="add-review__text">
-            <textarea
-              className="add-review__textarea"
-              name="review-text"
-              id="review-text"
-              placeholder="Review text"
-              value={review}
-              onChange={(evt) => setReview(evt.target.value)}>
-            </textarea>
-            <div className="add-review__submit">
-              <button className="add-review__btn" type="submit">Post</button>
+          <fieldset disabled={formBlocked}>
+            <div className="rating">
+              <div className="rating__stars">
+                {RATING_STARS.map((value) => {
+                  return (
+                    <React.Fragment key={value}>
+                      <input
+                        className="rating__input"
+                        id={`star-${value}`}
+                        type="radio"
+                        name="rating"
+                        value={value}
+                        onClick={(evt) => setStar(evt.target.value)}
+                        defaultChecked={star === value}
+                      />
+                      <label className="rating__label" htmlFor={`star-${value}`}>Rating {value}</label>
+                    </React.Fragment>
+                  );
+                })}
+              </div>
             </div>
 
-          </div>
+            <div className="add-review__text">
+              <textarea
+                className="add-review__textarea"
+                name="review-text"
+                id="review-text"
+                placeholder="Review text"
+                value={review}
+                onChange={(evt) => setReview(evt.target.value)}>
+              </textarea>
+              <div className="add-review__submit">
+                <button className="add-review__btn" type="submit" disabled={!isAbleToPost}>Post</button>
+              </div>
+
+            </div>
+          </fieldset>
         </form>
       </div>
+
+      {errorMessageVisible && <Unavailable />}
 
     </section>
   );
 };
 
-AddReviewView.propTypes = {
-  movie: MOVIE_PROPS,
-  onSubmit: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  movie: getMovie(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSubmit(id, comment) {
-    dispatch(postComment(id, comment));
-  }
-});
-
-export {AddReviewView};
-export default connect(mapStateToProps, mapDispatchToProps)(AddReviewView);
+export default AddReviewView;

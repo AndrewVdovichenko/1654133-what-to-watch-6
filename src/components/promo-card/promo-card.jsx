@@ -1,14 +1,14 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
+import {fetchPromoMovie} from '../../store/api-actions';
 import Header from '../header/header';
 import Logo from '../logo/logo';
 import MyListButton from '../my-list-button/my-list-button';
 import PlayButton from '../play-button/play-button';
 import UserBlock from '../user-block/user-block';
-import {getPromo} from '../../store/promo/selectors';
-import {PROMO_PROPS} from '../../utils/proptypes';
 
-const PromoCard = ({promo}) => {
+const PromoCard = () => {
+  const promo = useSelector((state) => state.PROMO.promo);
   const {name, genre, released, posterUrl, previewUrl, id} = promo;
 
   return (
@@ -39,7 +39,7 @@ const PromoCard = ({promo}) => {
 
             <div className="movie-card__buttons">
               <PlayButton movieId={id} />
-              <MyListButton movie={promo} />
+              <MyListButton movie={promo} onAfterClick={fetchPromoMovie()}/>
             </div>
           </div>
         </div>
@@ -47,13 +47,4 @@ const PromoCard = ({promo}) => {
     </section>);
 };
 
-PromoCard.propTypes = {
-  promo: PROMO_PROPS,
-};
-
-const mapStateToProps = (state) => ({
-  promo: getPromo(state),
-});
-
-export {PromoCard};
-export default connect(mapStateToProps, null)(PromoCard);
+export default PromoCard;

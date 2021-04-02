@@ -22,4 +22,4 @@ PlayButton.propTypes = {
   movieId: PropTypes.number.isRequired,
 };
 
-export default PlayButton;
+export default React.memo(PlayButton);

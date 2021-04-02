@@ -1,25 +1,19 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux';
 import {showMore} from '../../store/action';
 
-const ShowMore = ({increaseShowedFilmsCount}) => {
+const ShowMore = () => {
+  const dispatch = useDispatch();
+
+  const handleShowMoreButtonClick = () => {
+    dispatch(showMore());
+  };
+
   return (
-    <div className="catalog__more" onClick={increaseShowedFilmsCount}>
+    <div className="catalog__more" onClick={handleShowMoreButtonClick}>
       <button className="catalog__button" type="button">Show more</button>
     </div>
   );
 };
 
-ShowMore.propTypes = {
-  increaseShowedFilmsCount: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  increaseShowedFilmsCount() {
-    dispatch(showMore());
-  },
-});
-
-export {ShowMore};
-export default connect(null, mapDispatchToProps)(ShowMore);
+export default ShowMore;
