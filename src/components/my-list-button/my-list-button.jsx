@@ -1,25 +1,36 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {MOVIE_PROPS} from '../../utils/proptypes';
 import {addToFavorite} from '../../store/api-actions';
+import {AuthorizationStatus} from '../../utils/const';
+import {redirectToRoute} from '../../store/action';
 
 const MyListButton = (props) => {
   const {id, isFavorite} = props.movie;
   const [buttonDisabled, setButtonDisabled] = useState(false);
 
+  const authorizationStatus = useSelector((state) => state.USER.authorizationStatus);
+
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setButtonDisabled(false);
+  }, [isFavorite]);
+
   const handleAddToFavoriteClick = () => {
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+      dispatch(redirectToRoute(`/login`));
+      return;
+    }
+
     const status = !isFavorite ? 1 : 0;
 
-    const updateFavoriteStatus = async () => {
+    const updateFavoriteStatus = () => {
       setButtonDisabled(true);
 
-      await dispatch(addToFavorite(id, status));
-      await dispatch(props.onAfterClick);
-
-      setButtonDisabled(false);
+      dispatch(addToFavorite(id, status))
+        .then(() => dispatch(props.onAfterClick));
     };
 
     updateFavoriteStatus();
