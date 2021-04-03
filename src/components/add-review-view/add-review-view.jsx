@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Logo from '../logo/logo';
@@ -18,6 +18,10 @@ const AddReviewView = () => {
 
   const isAbleToPost = review.length >= MIN_REVIEW_LENGTH && review.length <= MAX_REVIEW_LENGTH;
 
+  useEffect(() => {
+    setFormBlocked(false);
+  }, [formBlocked]);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
 
@@ -34,8 +38,6 @@ const AddReviewView = () => {
       } catch (error) {
         setErrorMessageVisible(true);
       }
-
-      setFormBlocked(false);
     };
 
     postingComment();

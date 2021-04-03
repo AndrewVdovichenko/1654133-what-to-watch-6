@@ -61,5 +61,4 @@ export const postComment = (id, comment) => (dispatch, _getState, api) => (
   api.post(`/comments/${id}`, comment)
     .then(() => dispatch(redirectToRoute(`/films/${id}`)))
     .then(() => dispatch(fetchComments(id)))
-    .catch(() => {})
 );
