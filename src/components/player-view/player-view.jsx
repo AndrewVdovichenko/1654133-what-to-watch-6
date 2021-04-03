@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useParams, useHistory} from 'react-router-dom';
 import LoadingView from '../loading-view/loading-view';
 import {fetchMovie} from '../../store/api-actions';
-import {SECONDS_IN_MINUTE, INTERVAL_TO_UPDATE_PLAYER_INFO, HUNDRED_PERCENT} from '../../utils/const';
+import {SECONDS_IN_MINUTE, HUNDRED_PERCENT} from '../../utils/const';
 import {getFormattedRemainingTime} from '../../utils/helpers';
 
 const PlayerView = () => {
@@ -29,30 +29,39 @@ const PlayerView = () => {
     if (isNeedLoading) {
       dispatch(fetchMovie(movieId));
     } else {
+      const duration = movie.runTime * SECONDS_IN_MINUTE;
+
       setPlayer({
         ...player,
-        duration: movie.runTime * SECONDS_IN_MINUTE,
+        duration,
+        remainingTime: Math.floor(duration),
         currentTime: 0,
       });
     }
   }, [isNeedLoading]);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const currentTime = video.current.currentTime;
-      setPlayer({
-        ...player,
-        currentTime,
-        remainingTime: Math.floor(player.duration - currentTime),
-      });
-    }, INTERVAL_TO_UPDATE_PLAYER_INFO);
-
-    return () => clearInterval(interval);
-  });
-
   if (isNeedLoading) {
     return <LoadingView />;
   }
+
+  const handleMetadataLoaded = () => {
+    setPlayer({
+      ...player,
+      duration: video.current.duration,
+      remainingTime: Math.floor(video.current.duration),
+    });
+  };
+
+  const handleTimeUpdate = () => {
+    const videoPlayer = video.current;
+    const currentTime = videoPlayer.currentTime;
+
+    setPlayer({
+      ...player,
+      currentTime,
+      remainingTime: Math.floor(player.duration - currentTime),
+    });
+  };
 
   const isFullscreen = () => {
     return !!(document.fullScreen ||
@@ -62,7 +71,7 @@ const PlayerView = () => {
       document.fullscreenElement);
   };
 
-  const openFullscreen = () => {
+  const handleFullscreenButtonClick = () => {
     if (!video.current) {
       return;
     }
@@ -89,16 +98,18 @@ const PlayerView = () => {
     }
   };
 
-  const onPlayClick = () => {
-    if (player.paused) {
-      video.current.play();
+  const handlePlayButtonClick = () => {
+    const videoPlayer = video.current;
+
+    if (videoPlayer.paused || videoPlayer.ended) {
+      videoPlayer.play();
       setPlayer({
         ...player,
         paused: false,
         duration: video.current.duration,
       });
     } else {
-      video.current.pause();
+      videoPlayer.pause();
       setPlayer({
         ...player,
         paused: true,
@@ -112,7 +123,8 @@ const PlayerView = () => {
 
   return (
     <div className="player">
-      <video ref={video} src={movie.videoLink} className="player__video" poster={movie.previewUrl} preload="metadata"></video>
+      <video ref={video} src={movie.videoLink} className="player__video" poster={movie.previewUrl} preload="metadata"
+        onTimeUpdate={handleTimeUpdate} onLoadedMetadata={handleMetadataLoaded}></video>
 
       <button type="button" className="player__exit" onClick={() => {
         history.push(`/films/${movieId}`);
@@ -121,14 +133,14 @@ const PlayerView = () => {
       <div className="player__controls" ref={playerControls}>
         <div className="player__controls-row">
           <div className="player__time">
-            <progress className="player__progress" value={player.currentTime} min={0} max={player.duration}></progress>
+            <progress className="player__progress" value={player.currentTime} min={0} max={player.duration || 0}></progress>
             <div className="player__toggler" style={togglerStyle}>Toggler</div>
           </div>
           <div className="player__time-value">{getFormattedRemainingTime(player.remainingTime)}</div>
         </div>
 
         <div className="player__controls-row">
-          <button type="button" className="player__play" onClick={onPlayClick}>
+          <button type="button" className="player__play" onClick={handlePlayButtonClick}>
             {player.paused
               ? (
                 <>
@@ -150,7 +162,7 @@ const PlayerView = () => {
           </button>
           <div className="player__name">{movie.name}</div>
 
-          <button type="button" className="player__full-screen" onClick={openFullscreen}>
+          <button type="button" className="player__full-screen" onClick={handleFullscreenButtonClick}>
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>
             </svg>
